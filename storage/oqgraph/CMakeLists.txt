@@ -1,6 +1,6 @@
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-FUNCTION(CHECK_OQGRAPH)
+MACRO(CHECK_OQGRAPH)
 MESSAGE(STATUS "Configuring OQGraph")
 FIND_PACKAGE(Boost 1.40.0)
 IF(NOT Boost_FOUND)
@@ -41,14 +41,14 @@ ENDIF()
 IF(OQGRAPH_OK)
   ADD_DEFINITIONS(-DHAVE_OQGRAPH)
   IF(MSVC)
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc" PARENT_SCOPE)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
     # Fix problem with judy not finding inttypes.h on Windows:
     ADD_DEFINITIONS(-DJU_WIN)
   ELSE(MSVC)
     # Fix lp bug 1221555 with -fpermissive, so that errors in gcc 4.7 become warnings for the time being
     STRING(REPLACE "-fno-exceptions" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
     STRING(REPLACE "-fno-implicit-templates" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated -fno-strict-aliasing -fpermissive" PARENT_SCOPE)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated -fno-strict-aliasing -fpermissive")
   ENDIF(MSVC)
 
   ADD_DEFINITIONS(-DBOOST_NO_RTTI=1 -DBOOST_NO_TYPEID=1 -DBOOST_DISABLE_ASSERTS=1)
@@ -62,7 +62,7 @@ IF(OQGRAPH_OK)
 ELSE(OQGRAPH_OK)
   MESSAGE(STATUS "Requisites for OQGraph not met. OQGraph will not be compiled")
 ENDIF(OQGRAPH_OK)
-ENDFUNCTION()
+ENDMACRO()
 
 IF(NOT DEFINED OQGRAPH_OK)
   CHECK_OQGRAPH()
