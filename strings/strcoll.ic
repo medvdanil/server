@@ -259,6 +259,26 @@ MY_FUNCTION_NAME(strnncollsp)(CHARSET_INFO *cs __attribute__((unused)),
 }
 
 
+/**
+  Compare two strings according to the collation, with NO PAD handling.
+
+  @param cs          - the character set and collation
+  @param a           - the left string
+  @param a_length    - the length of the left string
+  @param b           - the right string
+  @param b_length    - the length of the right string
+  @return            - the comparison result
+*/
+
+static int
+MY_FUNCTION_NAME(strnncollsp_nopad)(CHARSET_INFO *cs __attribute__((unused)),
+                                    const uchar *a, size_t a_length,
+                                    const uchar *b, size_t b_length)
+{
+  return MY_FUNCTION_NAME(strnncoll)(cs, a, a_length, b, b_length, FALSE);
+}
+
+
 #ifdef DEFINE_STRNXFRM
 #ifndef WEIGHT_MB2_FRM
 #define WEIGHT_MB2_FRM(x,y)  WEIGHT_MB2(x,y)

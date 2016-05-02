@@ -4820,6 +4820,45 @@ my_strnxfrmlen_unicode_full_bin(CHARSET_INFO *cs, size_t len)
 {
   return ((len + 3) / cs->mbmaxlen) * 3;
 }
+
+
+size_t
+my_strnxfrm_unicode_nopad(CHARSET_INFO *cs,
+                    uchar *dst, size_t dstlen, uint nweights,
+                    const uchar *src, size_t srclen, uint flags)
+{//
+  my_wc_t UNINIT_VAR(wc);
+  int res;
+  uchar *dst0= dst;
+  uchar *de= dst + dstlen;
+  const uchar *se= src + srclen;
+  MY_UNICASE_INFO *uni_plane= (cs->state & MY_CS_BINSORT) ?
+                               NULL : cs->caseinfo;
+  DBUG_ASSERT(!srclen || src);
+
+  for (; dst < de && nweights; nweights--)
+  {
+    if ((res= cs->cset->mb_wc(cs, &wc, src, se)) <= 0)
+      break;
+    src+= res;
+
+    if (uni_plane)
+      my_tosort_unicode(uni_plane, &wc, cs->state);
+
+    *dst++= (uchar) (wc >> 8);
+    if (dst < de)
+      *dst++= (uchar) (wc & 0xFF);
+  }
+
+  if (dst < de && nweights && (flags & MY_STRXFRM_PAD_WITH_SPACE))
+    dst+= my_strxfrm_pad_nweights_unicode(dst, de, nweights);
+
+  my_strxfrm_desc_and_reverse(dst0, dst, flags, 0);
+
+  if ((flags & MY_STRXFRM_PAD_TO_MAXLEN) && dst < de)
+    dst+= my_strxfrm_pad_unicode(dst, de);
+  return dst - dst0;
+}
 #endif /* HAVE_UNIDATA */
 
 
@@ -5119,6 +5158,30 @@ static void my_hash_sort_utf8(CHARSET_INFO *cs, const uchar *s, size_t slen,
 }
 
 
+static void my_hash_sort_utf8_nopad(CHARSET_INFO *cs, const uchar *s, size_t slen,
+                                    ulong *nr1, ulong *nr2)
+{
+  my_wc_t wc;
+  int res;
+  const uchar *e=s+slen;
+  MY_UNICASE_INFO *uni_plane= cs->caseinfo;
+  register ulong m1= *nr1, m2= *nr2;
+
+  /*
+    Don't remove end space.
+  */
+
+  while ((s < e) && (res=my_utf8_uni(cs,&wc, (uchar *)s, (uchar*)e))>0 )
+  {
+    my_tosort_unicode(uni_plane, &wc, cs->state);
+    MY_HASH_ADD_16(m1, m2, wc);
+    s+=res;
+  }
+  *nr1= m1;
+  *nr2= m2;
+}
+
+
 static size_t my_caseup_str_utf8(CHARSET_INFO *cs, char *src)
 {
   my_wc_t wc;
@@ -5387,6 +5450,14 @@ static inline int my_weight_mb3_utf8_general_ci(uchar b0, uchar b1, uchar b2)
 #include "strcoll.ic"
 
 
+#define MY_FUNCTION_NAME(x)    my_ ## x ## _utf8_general_nopad_ci
+#define WEIGHT_ILSEQ(x)        (0xFF0000 + (uchar) (x))
+#define WEIGHT_MB1(x)          my_weight_mb1_utf8_general_ci(x)
+#define WEIGHT_MB2(x,y)        my_weight_mb2_utf8_general_ci(x,y)
+#define WEIGHT_MB3(x,y,z)      my_weight_mb3_utf8_general_ci(x,y,z)
+#include "strcoll.ic"
+
+
 static inline int my_weight_mb1_utf8_general_mysql500_ci(uchar b)
 {
   return (int) plane00_mysql500[b & 0xFF].sort;
@@ -5488,6 +5559,23 @@ static MY_COLLATION_HANDLER my_collation_utf8_bin_handler =
     my_propagate_simple
 };
 
+
+static MY_COLLATION_HANDLER my_collation_utf8_general_nopad_ci_handler =
+{
+    NULL,               /* init */
+    my_strnncoll_utf8_general_ci,
+    my_strnncollsp_nopad_utf8_general_ci,
+    my_strnxfrm_unicode_nopad,
+    my_strnxfrmlen_unicode,
+    my_like_range_mb,
+    my_wildcmp_utf8,
+    my_strcasecmp_utf8,
+    my_instr_mb,
+    my_hash_sort_utf8_nopad,
+    my_propagate_complex
+};
+
+
 MY_CHARSET_HANDLER my_charset_utf8_handler=
 {
     NULL,               /* init */
@@ -5583,7 +5671,7 @@ struct charset_info_st my_charset_utf8_general_mysql500_ci=
   0,                                            /* min_sort_char    */
   0xFFFF,                                       /* max_sort_char    */
   ' ',                                          /* pad char         */
-  0,                          /* escape_with_backslash_is_dangerous */
+  0,                                            /* escape_with_backslash_is_dangerous */
   1,                                            /* levels_for_order   */
   &my_charset_utf8_handler,
   &my_collation_utf8_general_mysql500_ci_handler
@@ -5620,6 +5708,39 @@ struct charset_info_st my_charset_utf8_bin=
     1,                  /* levels_for_order   */
     &my_charset_utf8_handler,
     &my_collation_utf8_bin_handler
+};
+
+
+struct charset_info_st my_charset_utf8_general_nopad_ci=
+{
+    333,0,0,                   /* number       */
+    MY_CS_COMPILED|MY_CS_STRNXFRM|MY_CS_UNICODE|MY_CS_NOPAD,  /* state  */
+    "utf8",                   /* cs name      */
+    "utf8_general_nopad_ci",  /* name         */
+    "",                       /* comment      */
+    NULL,                     /* tailoring    */
+    ctype_utf8,               /* ctype        */
+    to_lower_utf8,            /* to_lower     */
+    to_upper_utf8,            /* to_upper     */
+    to_upper_utf8,            /* sort_order   */
+    NULL,                     /* uca          */
+    NULL,                     /* tab_to_uni   */
+    NULL,                     /* tab_from_uni */
+    &my_unicase_default,      /* caseinfo     */
+    NULL,                     /* state_map    */
+    NULL,                     /* ident_map    */
+    1,                        /* strxfrm_multiply */
+    1,                        /* caseup_multiply  */
+    1,                        /* casedn_multiply  */
+    1,                        /* mbminlen     */
+    3,                        /* mbmaxlen     */
+    0,                        /* min_sort_char */
+    0xFFFF,                   /* max_sort_char */
+    ' ',                      /* pad char      */
+    0,                        /* escape_with_backslash_is_dangerous */
+    1,                        /* levels_for_order   */
+    &my_charset_utf8_handler,
+    &my_collation_utf8_general_nopad_ci_handler
 };
 
 #ifdef HAVE_UTF8_GENERAL_CS
