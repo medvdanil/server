@@ -202,6 +202,27 @@ MY_FUNCTION_NAME(strnncoll)(CHARSET_INFO *cs __attribute__((unused)),
 }
 
 
+#ifdef DEFINE_STRNNCOLLSP_NOPAD
+
+/**
+  Compare two strings according to the collation, with NO PAD handling.
+
+  @param cs          - the character set and collation
+  @param a           - the left string
+  @param a_length    - the length of the left string
+  @param b           - the right string
+  @param b_length    - the length of the right string
+  @return            - the comparison result
+*/
+static int
+MY_FUNCTION_NAME(strnncollsp)(CHARSET_INFO *cs __attribute__((unused)),
+                                    const uchar *a, size_t a_length,
+                                    const uchar *b, size_t b_length)
+{
+  return MY_FUNCTION_NAME(strnncoll)(cs, a, a_length, b, b_length, FALSE);
+}
+#undef DEFINE_STRNNCOLLSP_NOPAD
+#else
 /**
   Compare two strings according to the collation, with PAD SPACE handling.
 
@@ -212,7 +233,6 @@ MY_FUNCTION_NAME(strnncoll)(CHARSET_INFO *cs __attribute__((unused)),
   @param b_length    - the length of the right string
   @return            - the comparison result
 */
-
 static int
 MY_FUNCTION_NAME(strnncollsp)(CHARSET_INFO *cs __attribute__((unused)),
                               const uchar *a, size_t a_length, 
@@ -257,26 +277,7 @@ MY_FUNCTION_NAME(strnncollsp)(CHARSET_INFO *cs __attribute__((unused)),
   DBUG_ASSERT(0);
   return 0;
 }
-
-
-/**
-  Compare two strings according to the collation, with NO PAD handling.
-
-  @param cs          - the character set and collation
-  @param a           - the left string
-  @param a_length    - the length of the left string
-  @param b           - the right string
-  @param b_length    - the length of the right string
-  @return            - the comparison result
-*/
-
-static int
-MY_FUNCTION_NAME(strnncollsp_nopad)(CHARSET_INFO *cs __attribute__((unused)),
-                                    const uchar *a, size_t a_length,
-                                    const uchar *b, size_t b_length)
-{
-  return MY_FUNCTION_NAME(strnncoll)(cs, a, a_length, b, b_length, FALSE);
-}
+#endif
 
 
 #ifdef DEFINE_STRNXFRM

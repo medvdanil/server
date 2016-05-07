@@ -4692,27 +4692,17 @@ my_strxfrm_pad_unicode(uchar *str, uchar *strend)
 }
 
 
-/*
-  Store sorting weights using 2 bytes per character.
-
-  This function is shared between
-  - utf8mb3_general_ci, utf8_bin, ucs2_general_ci, ucs2_bin
-    which support BMP only (U+0000..U+FFFF).
-  - utf8mb4_general_ci, utf16_general_ci, utf32_general_ci,
-    which map all supplementary characters to weight 0xFFFD.
-*/
-size_t
-my_strnxfrm_unicode(CHARSET_INFO *cs,
-                    uchar *dst, size_t dstlen, uint nweights,
-                    const uchar *src, size_t srclen, uint flags)
+size_t my_strnxfrm_unicode_internal(CHARSET_INFO *cs,
+                                    uchar *dst, uchar *de, uint *nweights,
+                                    const uchar *src, size_t srclen)
 {
+
   my_wc_t UNINIT_VAR(wc);
   int res;
-  uchar *dst0= dst;
-  uchar *de= dst + dstlen;
   const uchar *se= src + srclen;
   MY_UNICASE_INFO *uni_plane= (cs->state & MY_CS_BINSORT) ?
                                NULL : cs->caseinfo;
+
   DBUG_ASSERT(!srclen || src);
 
   for (; dst < de && nweights; nweights--)
@@ -4728,6 +4718,27 @@ my_strnxfrm_unicode(CHARSET_INFO *cs,
     if (dst < de)
       *dst++= (uchar) (wc & 0xFF);
   }
+}
+
+
+/*
+  Store sorting weights using 2 bytes per character.
+
+  This function is shared between
+  - utf8mb3_general_ci, utf8_bin, ucs2_general_ci, ucs2_bin
+    which support BMP only (U+0000..U+FFFF).
+  - utf8mb4_general_ci, utf16_general_ci, utf32_general_ci,
+    which map all supplementary characters to weight 0xFFFD.
+*/
+size_t
+my_strnxfrm_unicode(CHARSET_INFO *cs,
+                    uchar *dst, size_t dstlen, uint nweights,
+                    const uchar *src, size_t srclen, uint flags)
+{
+  uchar *dst0= dst;
+  uchar *de= dst + dstlen;
+  dst += my_strnxfrm_unicode_internal(cs, dst, de, &nweights, src, srclen);
+  DBUG_ASSERT(dst <= de); /* Safety */
 
   if (dst < de && nweights && (flags & MY_STRXFRM_PAD_WITH_SPACE))
     dst+= my_strxfrm_pad_nweights_unicode(dst, de, nweights);
@@ -4739,6 +4750,35 @@ my_strnxfrm_unicode(CHARSET_INFO *cs,
   return dst - dst0;
 }
 
+
+size_t
+my_strnxfrm_unicode_nopad(CHARSET_INFO *cs,
+                          uchar *dst, size_t dstlen, uint nweights,
+                          const uchar *src, size_t srclen, uint flags)
+{//
+  uchar *dst0= dst;
+  uchar *de= dst + dstlen;
+
+  dst += my_strnxfrm_unicode_internal(cs, dst, de, &nweights, src, srclen);
+  DBUG_ASSERT(dst <= de); /* Safety */
+
+  if (dst < de && nweights && (flags & MY_STRXFRM_PAD_WITH_SPACE))
+  {
+    size_t len= de - dst;
+    set_if_smaller(len, nweights);
+    memset(dst, 0x00, len);
+    dst+= len;
+  }
+
+  my_strxfrm_desc_and_reverse(dst0, dst, flags, 0);
+
+  if ((flags & MY_STRXFRM_PAD_TO_MAXLEN) && dst < de)
+  {
+    memset(dst, 0x00, de - dst);
+    dst = de;
+  }
+  return dst - dst0;
+}
 
 /*
   For BMP-only collations that use 2 bytes per weight.
@@ -4819,45 +4859,6 @@ size_t
 my_strnxfrmlen_unicode_full_bin(CHARSET_INFO *cs, size_t len)
 {
   return ((len + 3) / cs->mbmaxlen) * 3;
-}
-
-
-size_t
-my_strnxfrm_unicode_nopad(CHARSET_INFO *cs,
-                    uchar *dst, size_t dstlen, uint nweights,
-                    const uchar *src, size_t srclen, uint flags)
-{//
-  my_wc_t UNINIT_VAR(wc);
-  int res;
-  uchar *dst0= dst;
-  uchar *de= dst + dstlen;
-  const uchar *se= src + srclen;
-  MY_UNICASE_INFO *uni_plane= (cs->state & MY_CS_BINSORT) ?
-                               NULL : cs->caseinfo;
-  DBUG_ASSERT(!srclen || src);
-
-  for (; dst < de && nweights; nweights--)
-  {
-    if ((res= cs->cset->mb_wc(cs, &wc, src, se)) <= 0)
-      break;
-    src+= res;
-
-    if (uni_plane)
-      my_tosort_unicode(uni_plane, &wc, cs->state);
-
-    *dst++= (uchar) (wc >> 8);
-    if (dst < de)
-      *dst++= (uchar) (wc & 0xFF);
-  }
-
-  if (dst < de && nweights && (flags & MY_STRXFRM_PAD_WITH_SPACE))
-    dst+= my_strxfrm_pad_nweights_unicode(dst, de, nweights);
-
-  my_strxfrm_desc_and_reverse(dst0, dst, flags, 0);
-
-  if ((flags & MY_STRXFRM_PAD_TO_MAXLEN) && dst < de)
-    dst+= my_strxfrm_pad_unicode(dst, de);
-  return dst - dst0;
 }
 #endif /* HAVE_UNIDATA */
 
@@ -5131,21 +5132,14 @@ static size_t my_caseup_utf8(CHARSET_INFO *cs, char *src, size_t srclen,
 }
 
 
-static void my_hash_sort_utf8(CHARSET_INFO *cs, const uchar *s, size_t slen,
-                              ulong *nr1, ulong *nr2)
+static void my_hash_sort_utf8_nopad(CHARSET_INFO *cs, const uchar *s, size_t slen,
+                                    ulong *nr1, ulong *nr2)
 {
   my_wc_t wc;
   int res;
   const uchar *e=s+slen;
   MY_UNICASE_INFO *uni_plane= cs->caseinfo;
   register ulong m1= *nr1, m2= *nr2;
-
-  /*
-    Remove end space. We have to do this to be able to compare
-    'A ' and 'A' as identical
-  */
-  while (e > s && e[-1] == ' ')
-    e--;
 
   while ((s < e) && (res=my_utf8_uni(cs,&wc, (uchar *)s, (uchar*)e))>0 )
   {
@@ -5158,27 +5152,17 @@ static void my_hash_sort_utf8(CHARSET_INFO *cs, const uchar *s, size_t slen,
 }
 
 
-static void my_hash_sort_utf8_nopad(CHARSET_INFO *cs, const uchar *s, size_t slen,
-                                    ulong *nr1, ulong *nr2)
+static void my_hash_sort_utf8(CHARSET_INFO *cs, const uchar *s, size_t slen,
+                              ulong *nr1, ulong *nr2)
 {
-  my_wc_t wc;
-  int res;
   const uchar *e=s+slen;
-  MY_UNICASE_INFO *uni_plane= cs->caseinfo;
-  register ulong m1= *nr1, m2= *nr2;
-
   /*
-    Don't remove end space.
+    Remove end space. We have to do this to be able to compare
+    'A ' and 'A' as identical
   */
-
-  while ((s < e) && (res=my_utf8_uni(cs,&wc, (uchar *)s, (uchar*)e))>0 )
-  {
-    my_tosort_unicode(uni_plane, &wc, cs->state);
-    MY_HASH_ADD_16(m1, m2, wc);
-    s+=res;
-  }
-  *nr1= m1;
-  *nr2= m2;
+  while (e > s && e[-1] == ' ')
+    e--;
+  my_hash_sort_utf8_nopad(cs, s, e - s, nr1, nr2);
 }
 
 
@@ -5450,6 +5434,7 @@ static inline int my_weight_mb3_utf8_general_ci(uchar b0, uchar b1, uchar b2)
 #include "strcoll.ic"
 
 
+#define DEFINE_STRNNCOLLSP_NOPAD
 #define MY_FUNCTION_NAME(x)    my_ ## x ## _utf8_general_nopad_ci
 #define WEIGHT_ILSEQ(x)        (0xFF0000 + (uchar) (x))
 #define WEIGHT_MB1(x)          my_weight_mb1_utf8_general_ci(x)
@@ -5564,7 +5549,7 @@ static MY_COLLATION_HANDLER my_collation_utf8_general_nopad_ci_handler =
 {
     NULL,               /* init */
     my_strnncoll_utf8_general_ci,
-    my_strnncollsp_nopad_utf8_general_ci,
+    my_strnncollsp_utf8_general_nopad_ci,
     my_strnxfrm_unicode_nopad,
     my_strnxfrmlen_unicode,
     my_like_range_mb,
