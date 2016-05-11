@@ -4696,7 +4696,7 @@ size_t my_strnxfrm_unicode_internal(CHARSET_INFO *cs,
                                     uchar *dst, uchar *de, uint *nweights,
                                     const uchar *src, size_t srclen)
 {
-
+  uchar *dst0= dst;
   my_wc_t UNINIT_VAR(wc);
   int res;
   const uchar *se= src + srclen;
@@ -4705,7 +4705,7 @@ size_t my_strnxfrm_unicode_internal(CHARSET_INFO *cs,
 
   DBUG_ASSERT(!srclen || src);
 
-  for (; dst < de && nweights; nweights--)
+  for (; dst < de && *nweights; (*nweights)--)
   {
     if ((res= cs->cset->mb_wc(cs, &wc, src, se)) <= 0)
       break;
@@ -4718,6 +4718,7 @@ size_t my_strnxfrm_unicode_internal(CHARSET_INFO *cs,
     if (dst < de)
       *dst++= (uchar) (wc & 0xFF);
   }
+  return dst - dst0;
 }
 
 

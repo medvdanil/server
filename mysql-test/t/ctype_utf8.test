@@ -1989,6 +1989,7 @@ DROP TABLE t1;
 CREATE TABLE t1 (a VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_nopad_ci);
 INSERT INTO t1 VALUES ('a'),('a  '),(' a'),(' a '),('a   ');
 SELECT DISTINCT * FROM t1 ORDER BY a;
+SELECT HEX(WEIGHT_STRING(a AS CHAR(10))) FROM t1;
 DROP TABLE t1;
 
 --echo #
