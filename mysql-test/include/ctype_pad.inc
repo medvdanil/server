@@ -52,3 +52,17 @@ eval SELECT IF('abc' COLLATE $coll = 'abc ' COLLATE $coll, 'pad', 'nopad');
 eval SELECT CASE 'abc' COLLATE $coll WHEN 'abc ' COLLATE $coll THEN 'pad' ELSE 'nopad' END;
 eval SELECT CASE WHEN 'abc' COLLATE $coll = 'abc ' COLLATE $coll THEN 'pad' ELSE 'nopad' END;
 eval SELECT LEAST('abc ' COLLATE $coll, 'abc  ' COLLATE $coll);
+
+#
+# Collation mix
+#
+eval CREATE TABLE t1 (a VARCHAR(10)) COLLATE $coll_pad;
+INSERT INTO t1 VALUES ('a'),('a ');
+SELECT COUNT(*) FROM t1 WHERE a='a';
+eval SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE $coll_pad;
+eval SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE $coll;
+eval ALTER TABLE t1 MODIFY a VARCHAR(10) COLLATE $coll;
+SELECT COUNT(*) FROM t1 WHERE a='a';
+eval SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE $coll_pad;
+eval SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE $coll;
+DROP TABLE t1;

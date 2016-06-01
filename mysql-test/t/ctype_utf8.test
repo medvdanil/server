@@ -1987,6 +1987,7 @@ DROP TABLE t1;
 --echo # MDEV-9711 NO PAD Collatons
 --echo #
 let $coll='utf8_general_nopad_ci';
+let $coll_pad='utf8_general_ci';
 --source include/ctype_pad_all_engines.inc
 
 --echo #

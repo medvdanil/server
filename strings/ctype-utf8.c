@@ -4738,7 +4738,7 @@ my_strnxfrm_unicode(CHARSET_INFO *cs,
 {
   uchar *dst0= dst;
   uchar *de= dst + dstlen;
-  dst += my_strnxfrm_unicode_internal(cs, dst, de, &nweights, src, srclen);
+  dst+= my_strnxfrm_unicode_internal(cs, dst, de, &nweights, src, srclen);
   DBUG_ASSERT(dst <= de); /* Safety */
 
   if (dst < de && nweights && (flags & MY_STRXFRM_PAD_WITH_SPACE))
@@ -4756,7 +4756,7 @@ size_t
 my_strnxfrm_unicode_nopad(CHARSET_INFO *cs,
                           uchar *dst, size_t dstlen, uint nweights,
                           const uchar *src, size_t srclen, uint flags)
-{//
+{
   uchar *dst0= dst;
   uchar *de= dst + dstlen;
 
@@ -4766,7 +4766,7 @@ my_strnxfrm_unicode_nopad(CHARSET_INFO *cs,
   if (dst < de && nweights && (flags & MY_STRXFRM_PAD_WITH_SPACE))
   {
     size_t len= de - dst;
-    set_if_smaller(len, nweights);
+    set_if_smaller(len, nweights * 2);
     memset(dst, 0x00, len);
     dst+= len;
   }
@@ -4776,7 +4776,7 @@ my_strnxfrm_unicode_nopad(CHARSET_INFO *cs,
   if ((flags & MY_STRXFRM_PAD_TO_MAXLEN) && dst < de)
   {
     memset(dst, 0x00, de - dst);
-    dst = de;
+    dst= de;
   }
   return dst - dst0;
 }
@@ -5138,7 +5138,7 @@ static void my_hash_sort_utf8_nopad(CHARSET_INFO *cs, const uchar *s, size_t sle
 {
   my_wc_t wc;
   int res;
-  const uchar *e=s+slen;
+  const uchar *e= s+slen;
   MY_UNICASE_INFO *uni_plane= cs->caseinfo;
   register ulong m1= *nr1, m2= *nr2;
 
@@ -5146,7 +5146,7 @@ static void my_hash_sort_utf8_nopad(CHARSET_INFO *cs, const uchar *s, size_t sle
   {
     my_tosort_unicode(uni_plane, &wc, cs->state);
     MY_HASH_ADD_16(m1, m2, wc);
-    s+=res;
+    s+= res;
   }
   *nr1= m1;
   *nr2= m2;
@@ -5156,7 +5156,7 @@ static void my_hash_sort_utf8_nopad(CHARSET_INFO *cs, const uchar *s, size_t sle
 static void my_hash_sort_utf8(CHARSET_INFO *cs, const uchar *s, size_t slen,
                               ulong *nr1, ulong *nr2)
 {
-  const uchar *e=s+slen;
+  const uchar *e= s+slen;
   /*
     Remove end space. We have to do this to be able to compare
     'A ' and 'A' as identical
