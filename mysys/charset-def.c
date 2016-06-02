@@ -312,6 +312,8 @@ my_bool init_compiled_charsets(myf flags __attribute__((unused)))
 #ifdef HAVE_CHARSET_utf8mb4
   add_compiled_collation(&my_charset_utf8mb4_general_ci);
   add_compiled_collation(&my_charset_utf8mb4_bin);
+  add_compiled_collation(&my_charset_utf8mb4_general_nopad_ci);
+  add_compiled_collation(&my_charset_utf8mb4_nopad_bin);
 #ifdef HAVE_UCA_COLLATIONS
   add_compiled_collation(&my_charset_utf8mb4_unicode_ci);
   add_compiled_collation(&my_charset_utf8mb4_german2_uca_ci);
@@ -348,6 +350,10 @@ my_bool init_compiled_charsets(myf flags __attribute__((unused)))
   add_compiled_collation(&my_charset_utf16_bin);
   add_compiled_collation(&my_charset_utf16le_general_ci);
   add_compiled_collation(&my_charset_utf16le_bin);
+  add_compiled_collation(&my_charset_utf16_general_nopad_ci);
+  add_compiled_collation(&my_charset_utf16_nopad_bin);
+  add_compiled_collation(&my_charset_utf16le_general_nopad_ci);
+  add_compiled_collation(&my_charset_utf16le_nopad_bin);
 #ifdef HAVE_UCA_COLLATIONS
   add_compiled_collation(&my_charset_utf16_unicode_ci);
   add_compiled_collation(&my_charset_utf16_german2_uca_ci);
@@ -382,6 +388,8 @@ my_bool init_compiled_charsets(myf flags __attribute__((unused)))
 #ifdef HAVE_CHARSET_utf32
   add_compiled_collation(&my_charset_utf32_general_ci);
   add_compiled_collation(&my_charset_utf32_bin);
+  add_compiled_collation(&my_charset_utf32_general_nopad_ci);
+  add_compiled_collation(&my_charset_utf32_nopad_bin);
 #ifdef HAVE_UCA_COLLATIONS
   add_compiled_collation(&my_charset_utf32_unicode_ci);
   add_compiled_collation(&my_charset_utf32_german2_uca_ci);

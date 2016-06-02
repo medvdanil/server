@@ -619,9 +619,15 @@ extern struct charset_info_st my_charset_utf16_general_ci;
 extern struct charset_info_st my_charset_utf16_unicode_ci;
 extern struct charset_info_st my_charset_utf16le_bin;
 extern struct charset_info_st my_charset_utf16le_general_ci;
+extern struct charset_info_st my_charset_utf16_general_nopad_ci;
+extern struct charset_info_st my_charset_utf16_nopad_bin;
+extern struct charset_info_st my_charset_utf16le_nopad_bin;
+extern struct charset_info_st my_charset_utf16le_general_nopad_ci;
 extern struct charset_info_st my_charset_utf32_bin;
 extern struct charset_info_st my_charset_utf32_general_ci;
 extern struct charset_info_st my_charset_utf32_unicode_ci;
+extern struct charset_info_st my_charset_utf32_nopad_bin;
+extern struct charset_info_st my_charset_utf32_general_nopad_ci;
 extern struct charset_info_st my_charset_utf8_bin;
 extern struct charset_info_st my_charset_utf8_nopad_bin;
 extern struct charset_info_st my_charset_utf8_general_nopad_ci;
@@ -629,6 +635,8 @@ extern struct charset_info_st my_charset_utf8_general_mysql500_ci;
 extern struct charset_info_st my_charset_utf8_unicode_ci;
 extern struct charset_info_st my_charset_utf8mb4_bin;
 extern struct charset_info_st my_charset_utf8mb4_general_ci;
+extern struct charset_info_st my_charset_utf8mb4_nopad_bin;
+extern struct charset_info_st my_charset_utf8mb4_general_nopad_ci;
 extern struct charset_info_st my_charset_utf8mb4_unicode_ci;
 
 #define MY_UTF8MB3                 "utf8"
@@ -837,11 +845,21 @@ size_t my_strnxfrm_mb(CHARSET_INFO *,
 size_t my_strnxfrm_unicode(CHARSET_INFO *,
                            uchar *dst, size_t dstlen, uint nweights,
                            const uchar *src, size_t srclen, uint flags);
+
+size_t my_strnxfrm_unicode_nopad(CHARSET_INFO *,
+                           uchar *dst, size_t dstlen, uint nweights,
+                           const uchar *src, size_t srclen, uint flags);
+
 size_t  my_strnxfrmlen_unicode(CHARSET_INFO *, size_t); 
 
 size_t my_strnxfrm_unicode_full_bin(CHARSET_INFO *,
                                     uchar *dst, size_t dstlen, uint nweights,
                                     const uchar *src, size_t srclen, uint flags);
+
+size_t my_strnxfrm_unicode_full_nopad_bin(CHARSET_INFO *,
+                                    uchar *dst, size_t dstlen, uint nweights,
+                                    const uchar *src, size_t srclen, uint flags);
+
 size_t  my_strnxfrmlen_unicode_full_bin(CHARSET_INFO *, size_t); 
 
 int my_wildcmp_unicode(CHARSET_INFO *cs,
