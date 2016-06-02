@@ -5483,6 +5483,15 @@ my_weight_mb3_utf8_general_mysql500_ci(uchar b0, uchar b1, uchar b2)
 #include "strcoll.ic"
 
 
+#define DEFINE_STRNNCOLLSP_NOPAD
+#define MY_FUNCTION_NAME(x)    my_ ## x ## _utf8_nopad_bin
+#define WEIGHT_ILSEQ(x)        (0xFF0000 + (uchar) (x))
+#define WEIGHT_MB1(x)          ((int) (uchar) (x))
+#define WEIGHT_MB2(x,y)        ((int) UTF8MB2_CODE(x,y))
+#define WEIGHT_MB3(x,y,z)      ((int) UTF8MB3_CODE(x,y,z))
+#include "strcoll.ic"
+
+
 static uint my_mbcharlen_utf8(CHARSET_INFO *cs  __attribute__((unused)),
                               uint c)
 {
@@ -5559,6 +5568,22 @@ static MY_COLLATION_HANDLER my_collation_utf8_general_nopad_ci_handler =
     my_instr_mb,
     my_hash_sort_utf8_nopad,
     my_propagate_complex
+};
+
+
+static MY_COLLATION_HANDLER my_collation_utf8_nopad_bin_handler =
+{
+    NULL,		/* init */
+    my_strnncoll_utf8_bin,
+    my_strnncollsp_utf8_nopad_bin,
+    my_strnxfrm_unicode_nopad,
+    my_strnxfrmlen_unicode,
+    my_like_range_mb,
+    my_wildcmp_mb_bin,
+    my_strcasecmp_mb_bin,
+    my_instr_mb,
+    my_hash_sort_mb_nopad_bin,
+    my_propagate_simple
 };
 
 
@@ -5728,6 +5753,40 @@ struct charset_info_st my_charset_utf8_general_nopad_ci=
     &my_charset_utf8_handler,
     &my_collation_utf8_general_nopad_ci_handler
 };
+
+
+struct charset_info_st my_charset_utf8_nopad_bin=
+{
+    334,0,0,            /* number       */
+    MY_CS_COMPILED|MY_CS_STRNXFRM|MY_CS_BINSORT|MY_CS_UNICODE, /* state  */
+    "utf8",             /* cs name      */
+    "utf8_nopad_bin",   /* name         */
+    "",                 /* comment      */
+    NULL,               /* tailoring    */
+    ctype_utf8,         /* ctype        */
+    to_lower_utf8,      /* to_lower     */
+    to_upper_utf8,      /* to_upper     */
+    NULL,               /* sort_order   */
+    NULL,               /* uca          */
+    NULL,               /* tab_to_uni   */
+    NULL,               /* tab_from_uni */
+    &my_unicase_default,/* caseinfo     */
+    NULL,               /* state_map    */
+    NULL,               /* ident_map    */
+    1,                  /* strxfrm_multiply */
+    1,                  /* caseup_multiply  */
+    1,                  /* casedn_multiply  */
+    1,                  /* mbminlen     */
+    3,                  /* mbmaxlen     */
+    0,                  /* min_sort_char */
+    0xFFFF,             /* max_sort_char */
+    ' ',                /* pad char      */
+    0,                  /* escape_with_backslash_is_dangerous */
+    1,                  /* levels_for_order   */
+    &my_charset_utf8_handler,
+    &my_collation_utf8_nopad_bin_handler
+};
+
 
 #ifdef HAVE_UTF8_GENERAL_CS
 

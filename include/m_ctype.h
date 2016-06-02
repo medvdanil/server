@@ -623,6 +623,7 @@ extern struct charset_info_st my_charset_utf32_bin;
 extern struct charset_info_st my_charset_utf32_general_ci;
 extern struct charset_info_st my_charset_utf32_unicode_ci;
 extern struct charset_info_st my_charset_utf8_bin;
+extern struct charset_info_st my_charset_utf8_nopad_bin;
 extern struct charset_info_st my_charset_utf8_general_nopad_ci;
 extern struct charset_info_st my_charset_utf8_general_mysql500_ci;
 extern struct charset_info_st my_charset_utf8_unicode_ci;
@@ -824,6 +825,10 @@ int my_strcasecmp_mb_bin(CHARSET_INFO * cs __attribute__((unused)),
 
 void my_hash_sort_mb_bin(CHARSET_INFO *cs __attribute__((unused)),
                          const uchar *key, size_t len,ulong *nr1, ulong *nr2);
+
+void my_hash_sort_mb_nopad_bin(CHARSET_INFO *cs __attribute__((unused)),
+                               const uchar *key, size_t len,
+                               ulong *nr1, ulong *nr2);
 
 size_t my_strnxfrm_mb(CHARSET_INFO *,
                       uchar *dst, size_t dstlen, uint nweights,

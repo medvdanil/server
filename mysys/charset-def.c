@@ -273,6 +273,7 @@ my_bool init_compiled_charsets(myf flags __attribute__((unused)))
   add_compiled_collation(&my_charset_utf8_general_ci);
   add_compiled_collation(&my_charset_utf8_general_nopad_ci);
   add_compiled_collation(&my_charset_utf8_bin);
+  add_compiled_collation(&my_charset_utf8_nopad_bin);
   add_compiled_collation(&my_charset_utf8_general_mysql500_ci);
 #ifdef HAVE_UTF8_GENERAL_CS
   add_compiled_collation(&my_charset_utf8_general_cs);

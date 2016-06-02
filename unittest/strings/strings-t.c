@@ -761,7 +761,7 @@ test_strcollsp()
 int main()
 {
   size_t i, failed= 0;
-  
+
   plan(2);
   diag("Testing my_like_range_xxx() functions");
   

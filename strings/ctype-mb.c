@@ -682,24 +682,33 @@ my_strcasecmp_mb_bin(CHARSET_INFO * cs __attribute__((unused)),
 }
 
 
+
 void
-my_hash_sort_mb_bin(CHARSET_INFO *cs __attribute__((unused)),
-                    const uchar *key, size_t len,ulong *nr1, ulong *nr2)
+my_hash_sort_mb_nopad_bin(CHARSET_INFO *cs __attribute__((unused)),
+                          const uchar *key, size_t len,ulong *nr1, ulong *nr2)
 {
   register ulong m1= *nr1, m2= *nr2;
-
-  /*
-     Remove trailing spaces. We have to do this to be able to compare
-    'A ' and 'A' as identical
-  */
-  const uchar *end = skip_trailing_space(key, len);
-  
+  const uchar *end = key + len;
   for (; key < end ; key++)
   {
     MY_HASH_ADD(m1, m2, (uint)*key);
   }
   *nr1= m1;
   *nr2= m2;
+
+}
+
+
+void
+my_hash_sort_mb_bin(CHARSET_INFO *cs __attribute__((unused)),
+                    const uchar *key, size_t len,ulong *nr1, ulong *nr2)
+{
+  /*
+     Remove trailing spaces. We have to do this to be able to compare
+    'A ' and 'A' as identical
+  */
+  const uchar *end = skip_trailing_space(key, len);
+  my_hash_sort_mb_nopad_bin(cs, key, end - key, nr1, nr2);
 }
 
 
