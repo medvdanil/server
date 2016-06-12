@@ -221,7 +221,6 @@ MY_FUNCTION_NAME(strnncollsp)(CHARSET_INFO *cs __attribute__((unused)),
 {
   return MY_FUNCTION_NAME(strnncoll)(cs, a, a_length, b, b_length, FALSE);
 }
-#undef DEFINE_STRNNCOLLSP_NOPAD
 #else
 /**
   Compare two strings according to the collation, with PAD SPACE handling.
@@ -313,7 +312,12 @@ MY_FUNCTION_NAME(strnxfrm)(CHARSET_INFO *cs,
     else
       *dst++= sort_order ? sort_order[*src++] : *src++;
   }
+#ifdef DEFINE_STRNNCOLLSP_NOPAD
+  return my_strxfrm_pad_desc_and_reverse_nopad(cs, d0, dst, de,
+					       nweights, flags, 0);
+#else
   return my_strxfrm_pad_desc_and_reverse(cs, d0, dst, de, nweights, flags, 0);
+#endif
 }
 #endif /* DEFINE_STRNXFRM */
 
@@ -331,3 +335,4 @@ MY_FUNCTION_NAME(strnxfrm)(CHARSET_INFO *cs,
 #undef WEIGHT_PAD_SPACE
 #undef WEIGHT_MB2_FRM
 #undef DEFINE_STRNXFRM
+#undef DEFINE_STRNNCOLLSP_NOPAD

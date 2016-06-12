@@ -589,13 +589,21 @@ extern MYSQL_PLUGIN_IMPORT struct charset_info_st my_charset_utf8_general_ci;
 
 extern struct charset_info_st my_charset_big5_bin;
 extern struct charset_info_st my_charset_big5_chinese_ci;
+extern struct charset_info_st my_charset_big5_nopad_bin;
+extern struct charset_info_st my_charset_big5_chinese_nopad_ci;
 extern struct charset_info_st my_charset_cp1250_czech_ci;
 extern struct charset_info_st my_charset_cp932_bin;
 extern struct charset_info_st my_charset_cp932_japanese_ci;
+extern struct charset_info_st my_charset_cp932_nopad_bin;
+extern struct charset_info_st my_charset_cp932_japanese_nopad_ci;
 extern struct charset_info_st my_charset_eucjpms_bin;
 extern struct charset_info_st my_charset_eucjpms_japanese_ci;
+extern struct charset_info_st my_charset_eucjpms_nopad_bin;
+extern struct charset_info_st my_charset_eucjpms_japanese_nopad_ci;
 extern struct charset_info_st my_charset_euckr_bin;
 extern struct charset_info_st my_charset_euckr_korean_ci;
+extern struct charset_info_st my_charset_euckr_nopad_bin;
+extern struct charset_info_st my_charset_euckr_korean_nopad_ci;
 extern struct charset_info_st my_charset_gb2312_bin;
 extern struct charset_info_st my_charset_gb2312_chinese_ci;
 extern struct charset_info_st my_charset_gbk_bin;
@@ -662,6 +670,11 @@ extern int  my_strnncollsp_simple(CHARSET_INFO *, const uchar *, size_t,
 extern void my_hash_sort_simple(CHARSET_INFO *cs,
 				const uchar *key, size_t len,
 				ulong *nr1, ulong *nr2); 
+
+extern void my_hash_sort_simple_nopad(CHARSET_INFO *cs,
+				      const uchar *key, size_t len,
+				      ulong *nr1, ulong *nr2);
+
 extern void my_hash_sort_bin(CHARSET_INFO *cs,
                              const uchar *key, size_t len, ulong *nr1,
                              ulong *nr2);
@@ -842,23 +855,29 @@ size_t my_strnxfrm_mb(CHARSET_INFO *,
                       uchar *dst, size_t dstlen, uint nweights,
                       const uchar *src, size_t srclen, uint flags);
 
+size_t my_strnxfrm_mb_nopad(CHARSET_INFO *,
+			    uchar *dst, size_t dstlen, uint nweights,
+			    const uchar *src, size_t srclen, uint flags);
+
 size_t my_strnxfrm_unicode(CHARSET_INFO *,
                            uchar *dst, size_t dstlen, uint nweights,
                            const uchar *src, size_t srclen, uint flags);
 
 size_t my_strnxfrm_unicode_nopad(CHARSET_INFO *,
-                           uchar *dst, size_t dstlen, uint nweights,
-                           const uchar *src, size_t srclen, uint flags);
+				 uchar *dst, size_t dstlen, uint nweights,
+				 const uchar *src, size_t srclen, uint flags);
 
 size_t  my_strnxfrmlen_unicode(CHARSET_INFO *, size_t); 
 
 size_t my_strnxfrm_unicode_full_bin(CHARSET_INFO *,
-                                    uchar *dst, size_t dstlen, uint nweights,
-                                    const uchar *src, size_t srclen, uint flags);
+                                    uchar *dst, size_t dstlen,
+                                    uint nweights, const uchar *src,
+                                    size_t srclen, uint flags);
 
 size_t my_strnxfrm_unicode_full_nopad_bin(CHARSET_INFO *,
-                                    uchar *dst, size_t dstlen, uint nweights,
-                                    const uchar *src, size_t srclen, uint flags);
+					  uchar *dst, size_t dstlen,
+					  uint nweights, const uchar *src,
+					  size_t srclen, uint flags);
 
 size_t  my_strnxfrmlen_unicode_full_bin(CHARSET_INFO *, size_t); 
 
@@ -898,6 +917,10 @@ void my_strxfrm_desc_and_reverse(uchar *str, uchar *strend,
 size_t my_strxfrm_pad_desc_and_reverse(CHARSET_INFO *cs,
                                        uchar *str, uchar *frmend, uchar *strend,
                                        uint nweights, uint flags, uint level);
+size_t my_strxfrm_pad_desc_and_reverse_nopad(CHARSET_INFO *cs,
+					     uchar *str, uchar *frmend,
+					     uchar *strend, uint nweights,
+					     uint flags, uint level);
 
 my_bool my_charset_is_ascii_compatible(CHARSET_INFO *cs);
 

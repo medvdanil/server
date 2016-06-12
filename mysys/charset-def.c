@@ -185,6 +185,8 @@ my_bool init_compiled_charsets(myf flags __attribute__((unused)))
 #ifdef HAVE_CHARSET_big5
   add_compiled_collation(&my_charset_big5_chinese_ci);
   add_compiled_collation(&my_charset_big5_bin);
+  add_compiled_collation(&my_charset_big5_chinese_nopad_ci);
+  add_compiled_collation(&my_charset_big5_nopad_bin);
 #endif
 
 #ifdef HAVE_CHARSET_cp1250
@@ -194,6 +196,8 @@ my_bool init_compiled_charsets(myf flags __attribute__((unused)))
 #ifdef HAVE_CHARSET_cp932
   add_compiled_collation(&my_charset_cp932_japanese_ci);
   add_compiled_collation(&my_charset_cp932_bin);
+  add_compiled_collation(&my_charset_cp932_japanese_nopad_ci);
+  add_compiled_collation(&my_charset_cp932_nopad_bin);
 #endif
 
 #ifdef HAVE_CHARSET_latin2
@@ -203,11 +207,15 @@ my_bool init_compiled_charsets(myf flags __attribute__((unused)))
 #ifdef HAVE_CHARSET_eucjpms
   add_compiled_collation(&my_charset_eucjpms_japanese_ci);
   add_compiled_collation(&my_charset_eucjpms_bin);
+  add_compiled_collation(&my_charset_eucjpms_japanese_nopad_ci);
+  add_compiled_collation(&my_charset_eucjpms_nopad_bin);
 #endif
 
 #ifdef HAVE_CHARSET_euckr
   add_compiled_collation(&my_charset_euckr_korean_ci);
   add_compiled_collation(&my_charset_euckr_bin);
+  add_compiled_collation(&my_charset_euckr_korean_nopad_ci);
+  add_compiled_collation(&my_charset_euckr_nopad_bin);
 #endif
 
 #ifdef HAVE_CHARSET_gb2312

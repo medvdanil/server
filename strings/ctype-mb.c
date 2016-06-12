@@ -602,13 +602,10 @@ uint my_instr_mb(CHARSET_INFO *cs,
   characters having multibyte weights *equal* to their codes:
   cp932, euckr, gb2312, sjis, eucjpms, ujis.
 */
-size_t
-my_strnxfrm_mb(CHARSET_INFO *cs,
-               uchar *dst, size_t dstlen, uint nweights,
-               const uchar *src, size_t srclen, uint flags)
+size_t my_strnxfrm_mb_internal(CHARSET_INFO *cs, uchar *dst, uchar *de,
+                               uint *nweights, const uchar *src, size_t srclen)
 {
   uchar *d0= dst;
-  uchar *de= dst + dstlen;
   const uchar *se= src + srclen;
   const uchar *sort_order= cs->sort_order;
 
@@ -619,12 +616,12 @@ my_strnxfrm_mb(CHARSET_INFO *cs,
     then we can run a simplified loop -
     without checking "nweights" and "de".
   */
-  if (dstlen >= srclen && nweights >= srclen)
+  if (de - d0 >= srclen && *nweights >= srclen)
   {
     if (sort_order)
     {
       /* Optimized version for a case insensitive collation */
-      for (; src < se; nweights--)
+      for (; src < se; (*nweights)--)
       {
         if (*src < 128) /* quickly catch ASCII characters */
           *dst++= sort_order[*src++];
@@ -635,7 +632,7 @@ my_strnxfrm_mb(CHARSET_INFO *cs,
     else
     {
       /* Optimized version for a case sensitive collation (no sort_order) */
-      for (; src < se; nweights--)
+      for (; src < se; (*nweights)--)
       {
         if (*src < 128) /* quickly catch ASCII characters */
           *dst++= *src++;
@@ -643,14 +640,14 @@ my_strnxfrm_mb(CHARSET_INFO *cs,
           my_strnxfrm_mb_non_ascii_char(cs, dst, src, se);
       }
     }
-    goto pad;
+    goto end;
   }
 
   /*
     A thourough loop, checking all possible limits:
     "se", "nweights" and "de".
   */
-  for (; src < se && nweights && dst < de; nweights--)
+  for (; src < se && *nweights && dst < de; (*nweights)--)
   {
     int chlen;
     if (*src < 128 || !(chlen= my_ismbchar(cs, (const char *) src,
@@ -669,8 +666,33 @@ my_strnxfrm_mb(CHARSET_INFO *cs,
     }
   }
 
-pad:
+end:
+  return dst - d0;
+}
+
+
+size_t
+my_strnxfrm_mb(CHARSET_INFO *cs,
+               uchar *dst, size_t dstlen, uint nweights,
+               const uchar *src, size_t srclen, uint flags)
+{
+  uchar *de= dst + dstlen;
+  uchar *d0= dst;
+  dst= d0 + my_strnxfrm_mb_internal(cs, dst, de, &nweights, src, srclen);
   return my_strxfrm_pad_desc_and_reverse(cs, d0, dst, de, nweights, flags, 0);
+}
+
+
+size_t
+my_strnxfrm_mb_nopad(CHARSET_INFO *cs,
+                     uchar *dst, size_t dstlen, uint nweights,
+                     const uchar *src, size_t srclen, uint flags)
+{
+  uchar *de= dst + dstlen;
+  uchar *d0= dst;
+  dst= d0 + my_strnxfrm_mb_internal(cs, dst, de, &nweights, src, srclen);
+  return my_strxfrm_pad_desc_and_reverse_nopad(cs, d0, dst, de, nweights,
+                                               flags, 0);
 }
 
 
@@ -695,7 +717,6 @@ my_hash_sort_mb_nopad_bin(CHARSET_INFO *cs __attribute__((unused)),
   }
   *nr1= m1;
   *nr2= m2;
-
 }
 
 

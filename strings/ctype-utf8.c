@@ -5731,7 +5731,7 @@ struct charset_info_st my_charset_utf8_general_mysql500_ci=
   0,                                            /* min_sort_char    */
   0xFFFF,                                       /* max_sort_char    */
   ' ',                                          /* pad char         */
-  0,                                            /* escape_with_backslash_is_dangerous */
+  0,                          /* escape_with_backslash_is_dangerous */
   1,                                            /* levels_for_order   */
   &my_charset_utf8_handler,
   &my_collation_utf8_general_mysql500_ci_handler
@@ -5807,7 +5807,8 @@ struct charset_info_st my_charset_utf8_general_nopad_ci=
 struct charset_info_st my_charset_utf8_nopad_bin=
 {
     334,0,0,            /* number       */
-    MY_CS_COMPILED|MY_CS_STRNXFRM|MY_CS_BINSORT|MY_CS_UNICODE|MY_CS_NOPAD, /* state  */
+    MY_CS_COMPILED|MY_CS_STRNXFRM|MY_CS_BINSORT|MY_CS_UNICODE|
+    MY_CS_NOPAD, /* state  */
     "utf8",             /* cs name      */
     "utf8_nopad_bin",   /* name         */
     "",                 /* comment      */

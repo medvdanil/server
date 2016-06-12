@@ -297,13 +297,28 @@ size_t my_snprintf_8bit(CHARSET_INFO *cs  __attribute__((unused)),
 }
 
 
+void my_hash_sort_simple_nopad(CHARSET_INFO *cs,
+			       const uchar *key, size_t len,
+			       ulong *nr1, ulong *nr2)
+{
+  register const uchar *sort_order=cs->sort_order;
+  const uchar *end= key + len;
+  register ulong m1= *nr1, m2= *nr2;
+  for (; key < (uchar*) end ; key++)
+  {
+    MY_HASH_ADD(m1, m2, (uint) sort_order[(uint) *key]);
+  }
+  *nr1= m1;
+  *nr2= m2;
+}
+
+
 void my_hash_sort_simple(CHARSET_INFO *cs,
-			 const uchar *key, size_t len,
-			 ulong *nr1, ulong *nr2)
+                         const uchar *key, size_t len,
+                         ulong *nr1, ulong *nr2)
 {
   register const uchar *sort_order=cs->sort_order;
   const uchar *end;
-  register ulong m1= *nr1, m2= *nr2;
   uint16 space_weight= sort_order[' '];
 
   /*
@@ -338,13 +353,7 @@ void my_hash_sort_simple(CHARSET_INFO *cs,
       break;
     }
   }
-
-  for (; key < (uchar*) end ; key++)
-  {
-    MY_HASH_ADD(m1, m2, (uint) sort_order[(uint) *key]);
-  }
-  *nr1= m1;
-  *nr2= m2;
+  my_hash_sort_simple_nopad(cs, key, end - key, nr1, nr2);
 }
 
 
@@ -1907,6 +1916,28 @@ my_strxfrm_pad_desc_and_reverse(CHARSET_INFO *cs,
   {
     uint fill_length= strend - frmend;
     cs->cset->fill(cs, (char*) frmend, fill_length, cs->pad_char);
+    frmend= strend;
+  }
+  return frmend - str;
+}
+
+
+size_t
+my_strxfrm_pad_desc_and_reverse_nopad(CHARSET_INFO *cs,
+                                      uchar *str, uchar *frmend, uchar *strend,
+                                      uint nweights, uint flags, uint level)
+{
+  if (nweights && frmend < strend && (flags & MY_STRXFRM_PAD_WITH_SPACE))
+  {
+    uint fill_length= MY_MIN((uint) (strend - frmend), nweights * cs->mbminlen);
+    memset(frmend, 0x00, fill_length);
+    frmend+= fill_length;
+  }
+  my_strxfrm_desc_and_reverse(str, frmend, flags, level);
+  if ((flags & MY_STRXFRM_PAD_TO_MAXLEN) && frmend < strend)
+  {
+    uint fill_length= strend - frmend;
+    memset(frmend, 0x00, fill_length);
     frmend= strend;
   }
   return frmend - str;
