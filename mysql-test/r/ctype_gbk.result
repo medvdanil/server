@@ -5945,5 +5945,537 @@ HEX(a)
 B042
 DROP TABLE t1;
 #
+# MDEV-9711 NO PAD Collatons
+#
+SET character_set_connection=gbk;
+CREATE TABLE t1 (a VARCHAR(10) PRIMARY KEY) COLLATE 'gbk_chinese_nopad_ci';
+INSERT INTO t1 VALUES ('abc'),('abc  '),(' a'),(' a '),('a   ');
+SELECT * FROM t1 ORDER BY a;
+a
+ a
+ a 
+a   
+abc
+abc  
+CREATE TABLE t2 (a VARCHAR(10)) COLLATE 'gbk_chinese_nopad_ci';
+INSERT INTO t2 VALUES ('abc '),('abc  '),(' a'),('a ');
+SELECT * FROM t1 UNION SELECT * FROM t2 ORDER BY a;
+a
+ a
+ a 
+a 
+a   
+abc
+abc 
+abc  
+DROP TABLE t1;
+DROP TABLE t2;
+CREATE TABLE t1 (a VARCHAR(10)) COLLATE 'gbk_chinese_nopad_ci';
+INSERT INTO t1 VALUES ('a'),('a  '),(' a'),(' a '),('a   ');
+SELECT DISTINCT * FROM t1 ORDER BY a;
+a
+ a
+ a 
+a
+a  
+a   
+SELECT DISTINCT COUNT(*) FROM t1 ORDER BY a;
+COUNT(*)
+5
+SELECT MAX(a) FROM t1;
+MAX(a)
+a   
+CREATE TABLE t2 (a VARCHAR(10), b int, c varchar(10)) COLLATE 'gbk_chinese_nopad_ci';
+INSERT t2 values('ab', 12, 'cd'), ('ab', 2, 'ed'), ('aa', 20, 'er'), ('aa  ', 0, 'er ');
+SELECT * FROM t2 GROUP BY b ORDER BY c;
+a	b	c
+ab	12	cd
+ab	2	ed
+aa	20	er
+aa  	0	er 
+DROP TABLE t2;
+SELECT HEX(WEIGHT_STRING(a AS CHAR(10))) FROM t1;
+HEX(WEIGHT_STRING(a AS CHAR(10)))
+41000000000000000000
+41202000000000000000
+20410000000000000000
+20412000000000000000
+41202020000000000000
+DROP TABLE t1;
+SELECT IF('abc' COLLATE 'gbk_chinese_nopad_ci' = 'abc ' COLLATE 'gbk_chinese_nopad_ci', 'pad', 'nopad');
+IF('abc' COLLATE 'gbk_chinese_nopad_ci' = 'abc ' COLLATE 'gbk_chinese_nopad_ci', 'pad', 'nopad')
+nopad
+SELECT CASE 'abc' COLLATE 'gbk_chinese_nopad_ci' WHEN 'abc ' COLLATE 'gbk_chinese_nopad_ci' THEN 'pad' ELSE 'nopad' END;
+CASE 'abc' COLLATE 'gbk_chinese_nopad_ci' WHEN 'abc ' COLLATE 'gbk_chinese_nopad_ci' THEN 'pad' ELSE 'nopad' END
+nopad
+SELECT CASE WHEN 'abc' COLLATE 'gbk_chinese_nopad_ci' = 'abc ' COLLATE 'gbk_chinese_nopad_ci' THEN 'pad' ELSE 'nopad' END;
+CASE WHEN 'abc' COLLATE 'gbk_chinese_nopad_ci' = 'abc ' COLLATE 'gbk_chinese_nopad_ci' THEN 'pad' ELSE 'nopad' END
+nopad
+SELECT LEAST('abc ' COLLATE 'gbk_chinese_nopad_ci', 'abc  ' COLLATE 'gbk_chinese_nopad_ci');
+LEAST('abc ' COLLATE 'gbk_chinese_nopad_ci', 'abc  ' COLLATE 'gbk_chinese_nopad_ci')
+abc 
+CREATE TABLE t1 (a VARCHAR(10)) COLLATE 'gbk_chinese_ci';
+INSERT INTO t1 VALUES ('a'),('a ');
+SELECT COUNT(*) FROM t1 WHERE a='a';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_chinese_ci';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_chinese_nopad_ci';
+COUNT(*)
+1
+ALTER TABLE t1 MODIFY a VARCHAR(10) COLLATE 'gbk_chinese_nopad_ci';
+SELECT COUNT(*) FROM t1 WHERE a='a';
+COUNT(*)
+1
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_chinese_ci';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_chinese_nopad_ci';
+COUNT(*)
+1
+DROP TABLE t1;
+CREATE TABLE t1 (a VARCHAR(10) PRIMARY KEY) COLLATE 'gbk_chinese_nopad_ci';
+INSERT INTO t1 VALUES ('abc'),('abc  '),(' a'),(' a '),('a   ');
+SELECT * FROM t1 ORDER BY a;
+a
+ a
+ a 
+a   
+abc
+abc  
+CREATE TABLE t2 (a VARCHAR(10)) COLLATE 'gbk_chinese_nopad_ci';
+INSERT INTO t2 VALUES ('abc '),('abc  '),(' a'),('a ');
+SELECT * FROM t1 UNION SELECT * FROM t2 ORDER BY a;
+a
+ a
+ a 
+a 
+a   
+abc
+abc 
+abc  
+DROP TABLE t1;
+DROP TABLE t2;
+CREATE TABLE t1 (a VARCHAR(10)) COLLATE 'gbk_chinese_nopad_ci';
+INSERT INTO t1 VALUES ('a'),('a  '),(' a'),(' a '),('a   ');
+SELECT DISTINCT * FROM t1 ORDER BY a;
+a
+ a
+ a 
+a
+a  
+a   
+SELECT DISTINCT COUNT(*) FROM t1 ORDER BY a;
+COUNT(*)
+5
+SELECT MAX(a) FROM t1;
+MAX(a)
+a   
+CREATE TABLE t2 (a VARCHAR(10), b int, c varchar(10)) COLLATE 'gbk_chinese_nopad_ci';
+INSERT t2 values('ab', 12, 'cd'), ('ab', 2, 'ed'), ('aa', 20, 'er'), ('aa  ', 0, 'er ');
+SELECT * FROM t2 GROUP BY b ORDER BY c;
+a	b	c
+ab	12	cd
+ab	2	ed
+aa	20	er
+aa  	0	er 
+DROP TABLE t2;
+SELECT HEX(WEIGHT_STRING(a AS CHAR(10))) FROM t1;
+HEX(WEIGHT_STRING(a AS CHAR(10)))
+41000000000000000000
+41202000000000000000
+20410000000000000000
+20412000000000000000
+41202020000000000000
+DROP TABLE t1;
+SELECT IF('abc' COLLATE 'gbk_chinese_nopad_ci' = 'abc ' COLLATE 'gbk_chinese_nopad_ci', 'pad', 'nopad');
+IF('abc' COLLATE 'gbk_chinese_nopad_ci' = 'abc ' COLLATE 'gbk_chinese_nopad_ci', 'pad', 'nopad')
+nopad
+SELECT CASE 'abc' COLLATE 'gbk_chinese_nopad_ci' WHEN 'abc ' COLLATE 'gbk_chinese_nopad_ci' THEN 'pad' ELSE 'nopad' END;
+CASE 'abc' COLLATE 'gbk_chinese_nopad_ci' WHEN 'abc ' COLLATE 'gbk_chinese_nopad_ci' THEN 'pad' ELSE 'nopad' END
+nopad
+SELECT CASE WHEN 'abc' COLLATE 'gbk_chinese_nopad_ci' = 'abc ' COLLATE 'gbk_chinese_nopad_ci' THEN 'pad' ELSE 'nopad' END;
+CASE WHEN 'abc' COLLATE 'gbk_chinese_nopad_ci' = 'abc ' COLLATE 'gbk_chinese_nopad_ci' THEN 'pad' ELSE 'nopad' END
+nopad
+SELECT LEAST('abc ' COLLATE 'gbk_chinese_nopad_ci', 'abc  ' COLLATE 'gbk_chinese_nopad_ci');
+LEAST('abc ' COLLATE 'gbk_chinese_nopad_ci', 'abc  ' COLLATE 'gbk_chinese_nopad_ci')
+abc 
+CREATE TABLE t1 (a VARCHAR(10)) COLLATE 'gbk_chinese_ci';
+INSERT INTO t1 VALUES ('a'),('a ');
+SELECT COUNT(*) FROM t1 WHERE a='a';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_chinese_ci';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_chinese_nopad_ci';
+COUNT(*)
+1
+ALTER TABLE t1 MODIFY a VARCHAR(10) COLLATE 'gbk_chinese_nopad_ci';
+SELECT COUNT(*) FROM t1 WHERE a='a';
+COUNT(*)
+1
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_chinese_ci';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_chinese_nopad_ci';
+COUNT(*)
+1
+DROP TABLE t1;
+CREATE TABLE t1 (a VARCHAR(10) PRIMARY KEY) COLLATE 'gbk_chinese_nopad_ci';
+INSERT INTO t1 VALUES ('abc'),('abc  '),(' a'),(' a '),('a   ');
+SELECT * FROM t1 ORDER BY a;
+a
+ a
+ a 
+a   
+abc
+abc  
+CREATE TABLE t2 (a VARCHAR(10)) COLLATE 'gbk_chinese_nopad_ci';
+INSERT INTO t2 VALUES ('abc '),('abc  '),(' a'),('a ');
+SELECT * FROM t1 UNION SELECT * FROM t2 ORDER BY a;
+a
+ a
+ a 
+a 
+a   
+abc
+abc 
+abc  
+DROP TABLE t1;
+DROP TABLE t2;
+CREATE TABLE t1 (a VARCHAR(10)) COLLATE 'gbk_chinese_nopad_ci';
+INSERT INTO t1 VALUES ('a'),('a  '),(' a'),(' a '),('a   ');
+SELECT DISTINCT * FROM t1 ORDER BY a;
+a
+ a
+ a 
+a
+a  
+a   
+SELECT DISTINCT COUNT(*) FROM t1 ORDER BY a;
+COUNT(*)
+5
+SELECT MAX(a) FROM t1;
+MAX(a)
+a   
+CREATE TABLE t2 (a VARCHAR(10), b int, c varchar(10)) COLLATE 'gbk_chinese_nopad_ci';
+INSERT t2 values('ab', 12, 'cd'), ('ab', 2, 'ed'), ('aa', 20, 'er'), ('aa  ', 0, 'er ');
+SELECT * FROM t2 GROUP BY b ORDER BY c;
+a	b	c
+ab	12	cd
+ab	2	ed
+aa	20	er
+aa  	0	er 
+DROP TABLE t2;
+SELECT HEX(WEIGHT_STRING(a AS CHAR(10))) FROM t1;
+HEX(WEIGHT_STRING(a AS CHAR(10)))
+41000000000000000000
+41202000000000000000
+20410000000000000000
+20412000000000000000
+41202020000000000000
+DROP TABLE t1;
+SELECT IF('abc' COLLATE 'gbk_chinese_nopad_ci' = 'abc ' COLLATE 'gbk_chinese_nopad_ci', 'pad', 'nopad');
+IF('abc' COLLATE 'gbk_chinese_nopad_ci' = 'abc ' COLLATE 'gbk_chinese_nopad_ci', 'pad', 'nopad')
+nopad
+SELECT CASE 'abc' COLLATE 'gbk_chinese_nopad_ci' WHEN 'abc ' COLLATE 'gbk_chinese_nopad_ci' THEN 'pad' ELSE 'nopad' END;
+CASE 'abc' COLLATE 'gbk_chinese_nopad_ci' WHEN 'abc ' COLLATE 'gbk_chinese_nopad_ci' THEN 'pad' ELSE 'nopad' END
+nopad
+SELECT CASE WHEN 'abc' COLLATE 'gbk_chinese_nopad_ci' = 'abc ' COLLATE 'gbk_chinese_nopad_ci' THEN 'pad' ELSE 'nopad' END;
+CASE WHEN 'abc' COLLATE 'gbk_chinese_nopad_ci' = 'abc ' COLLATE 'gbk_chinese_nopad_ci' THEN 'pad' ELSE 'nopad' END
+nopad
+SELECT LEAST('abc ' COLLATE 'gbk_chinese_nopad_ci', 'abc  ' COLLATE 'gbk_chinese_nopad_ci');
+LEAST('abc ' COLLATE 'gbk_chinese_nopad_ci', 'abc  ' COLLATE 'gbk_chinese_nopad_ci')
+abc 
+CREATE TABLE t1 (a VARCHAR(10)) COLLATE 'gbk_chinese_ci';
+INSERT INTO t1 VALUES ('a'),('a ');
+SELECT COUNT(*) FROM t1 WHERE a='a';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_chinese_ci';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_chinese_nopad_ci';
+COUNT(*)
+1
+ALTER TABLE t1 MODIFY a VARCHAR(10) COLLATE 'gbk_chinese_nopad_ci';
+SELECT COUNT(*) FROM t1 WHERE a='a';
+COUNT(*)
+1
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_chinese_ci';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_chinese_nopad_ci';
+COUNT(*)
+1
+DROP TABLE t1;
+CREATE TABLE t1 (a VARCHAR(10) PRIMARY KEY) COLLATE 'gbk_nopad_bin';
+INSERT INTO t1 VALUES ('abc'),('abc  '),(' a'),(' a '),('a   ');
+SELECT * FROM t1 ORDER BY a;
+a
+ a
+ a 
+a   
+abc
+abc  
+CREATE TABLE t2 (a VARCHAR(10)) COLLATE 'gbk_nopad_bin';
+INSERT INTO t2 VALUES ('abc '),('abc  '),(' a'),('a ');
+SELECT * FROM t1 UNION SELECT * FROM t2 ORDER BY a;
+a
+ a
+ a 
+a 
+a   
+abc
+abc 
+abc  
+DROP TABLE t1;
+DROP TABLE t2;
+CREATE TABLE t1 (a VARCHAR(10)) COLLATE 'gbk_nopad_bin';
+INSERT INTO t1 VALUES ('a'),('a  '),(' a'),(' a '),('a   ');
+SELECT DISTINCT * FROM t1 ORDER BY a;
+a
+ a
+ a 
+a
+a  
+a   
+SELECT DISTINCT COUNT(*) FROM t1 ORDER BY a;
+COUNT(*)
+5
+SELECT MAX(a) FROM t1;
+MAX(a)
+a   
+CREATE TABLE t2 (a VARCHAR(10), b int, c varchar(10)) COLLATE 'gbk_nopad_bin';
+INSERT t2 values('ab', 12, 'cd'), ('ab', 2, 'ed'), ('aa', 20, 'er'), ('aa  ', 0, 'er ');
+SELECT * FROM t2 GROUP BY b ORDER BY c;
+a	b	c
+ab	12	cd
+ab	2	ed
+aa	20	er
+aa  	0	er 
+DROP TABLE t2;
+SELECT HEX(WEIGHT_STRING(a AS CHAR(10))) FROM t1;
+HEX(WEIGHT_STRING(a AS CHAR(10)))
+61000000000000000000
+61202000000000000000
+20610000000000000000
+20612000000000000000
+61202020000000000000
+DROP TABLE t1;
+SELECT IF('abc' COLLATE 'gbk_nopad_bin' = 'abc ' COLLATE 'gbk_nopad_bin', 'pad', 'nopad');
+IF('abc' COLLATE 'gbk_nopad_bin' = 'abc ' COLLATE 'gbk_nopad_bin', 'pad', 'nopad')
+nopad
+SELECT CASE 'abc' COLLATE 'gbk_nopad_bin' WHEN 'abc ' COLLATE 'gbk_nopad_bin' THEN 'pad' ELSE 'nopad' END;
+CASE 'abc' COLLATE 'gbk_nopad_bin' WHEN 'abc ' COLLATE 'gbk_nopad_bin' THEN 'pad' ELSE 'nopad' END
+nopad
+SELECT CASE WHEN 'abc' COLLATE 'gbk_nopad_bin' = 'abc ' COLLATE 'gbk_nopad_bin' THEN 'pad' ELSE 'nopad' END;
+CASE WHEN 'abc' COLLATE 'gbk_nopad_bin' = 'abc ' COLLATE 'gbk_nopad_bin' THEN 'pad' ELSE 'nopad' END
+nopad
+SELECT LEAST('abc ' COLLATE 'gbk_nopad_bin', 'abc  ' COLLATE 'gbk_nopad_bin');
+LEAST('abc ' COLLATE 'gbk_nopad_bin', 'abc  ' COLLATE 'gbk_nopad_bin')
+abc 
+CREATE TABLE t1 (a VARCHAR(10)) COLLATE 'gbk_bin';
+INSERT INTO t1 VALUES ('a'),('a ');
+SELECT COUNT(*) FROM t1 WHERE a='a';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_bin';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_nopad_bin';
+COUNT(*)
+1
+ALTER TABLE t1 MODIFY a VARCHAR(10) COLLATE 'gbk_nopad_bin';
+SELECT COUNT(*) FROM t1 WHERE a='a';
+COUNT(*)
+1
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_bin';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_nopad_bin';
+COUNT(*)
+1
+DROP TABLE t1;
+CREATE TABLE t1 (a VARCHAR(10) PRIMARY KEY) COLLATE 'gbk_nopad_bin';
+INSERT INTO t1 VALUES ('abc'),('abc  '),(' a'),(' a '),('a   ');
+SELECT * FROM t1 ORDER BY a;
+a
+ a
+ a 
+a   
+abc
+abc  
+CREATE TABLE t2 (a VARCHAR(10)) COLLATE 'gbk_nopad_bin';
+INSERT INTO t2 VALUES ('abc '),('abc  '),(' a'),('a ');
+SELECT * FROM t1 UNION SELECT * FROM t2 ORDER BY a;
+a
+ a
+ a 
+a 
+a   
+abc
+abc 
+abc  
+DROP TABLE t1;
+DROP TABLE t2;
+CREATE TABLE t1 (a VARCHAR(10)) COLLATE 'gbk_nopad_bin';
+INSERT INTO t1 VALUES ('a'),('a  '),(' a'),(' a '),('a   ');
+SELECT DISTINCT * FROM t1 ORDER BY a;
+a
+ a
+ a 
+a
+a  
+a   
+SELECT DISTINCT COUNT(*) FROM t1 ORDER BY a;
+COUNT(*)
+5
+SELECT MAX(a) FROM t1;
+MAX(a)
+a   
+CREATE TABLE t2 (a VARCHAR(10), b int, c varchar(10)) COLLATE 'gbk_nopad_bin';
+INSERT t2 values('ab', 12, 'cd'), ('ab', 2, 'ed'), ('aa', 20, 'er'), ('aa  ', 0, 'er ');
+SELECT * FROM t2 GROUP BY b ORDER BY c;
+a	b	c
+ab	12	cd
+ab	2	ed
+aa	20	er
+aa  	0	er 
+DROP TABLE t2;
+SELECT HEX(WEIGHT_STRING(a AS CHAR(10))) FROM t1;
+HEX(WEIGHT_STRING(a AS CHAR(10)))
+61000000000000000000
+61202000000000000000
+20610000000000000000
+20612000000000000000
+61202020000000000000
+DROP TABLE t1;
+SELECT IF('abc' COLLATE 'gbk_nopad_bin' = 'abc ' COLLATE 'gbk_nopad_bin', 'pad', 'nopad');
+IF('abc' COLLATE 'gbk_nopad_bin' = 'abc ' COLLATE 'gbk_nopad_bin', 'pad', 'nopad')
+nopad
+SELECT CASE 'abc' COLLATE 'gbk_nopad_bin' WHEN 'abc ' COLLATE 'gbk_nopad_bin' THEN 'pad' ELSE 'nopad' END;
+CASE 'abc' COLLATE 'gbk_nopad_bin' WHEN 'abc ' COLLATE 'gbk_nopad_bin' THEN 'pad' ELSE 'nopad' END
+nopad
+SELECT CASE WHEN 'abc' COLLATE 'gbk_nopad_bin' = 'abc ' COLLATE 'gbk_nopad_bin' THEN 'pad' ELSE 'nopad' END;
+CASE WHEN 'abc' COLLATE 'gbk_nopad_bin' = 'abc ' COLLATE 'gbk_nopad_bin' THEN 'pad' ELSE 'nopad' END
+nopad
+SELECT LEAST('abc ' COLLATE 'gbk_nopad_bin', 'abc  ' COLLATE 'gbk_nopad_bin');
+LEAST('abc ' COLLATE 'gbk_nopad_bin', 'abc  ' COLLATE 'gbk_nopad_bin')
+abc 
+CREATE TABLE t1 (a VARCHAR(10)) COLLATE 'gbk_bin';
+INSERT INTO t1 VALUES ('a'),('a ');
+SELECT COUNT(*) FROM t1 WHERE a='a';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_bin';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_nopad_bin';
+COUNT(*)
+1
+ALTER TABLE t1 MODIFY a VARCHAR(10) COLLATE 'gbk_nopad_bin';
+SELECT COUNT(*) FROM t1 WHERE a='a';
+COUNT(*)
+1
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_bin';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_nopad_bin';
+COUNT(*)
+1
+DROP TABLE t1;
+CREATE TABLE t1 (a VARCHAR(10) PRIMARY KEY) COLLATE 'gbk_nopad_bin';
+INSERT INTO t1 VALUES ('abc'),('abc  '),(' a'),(' a '),('a   ');
+SELECT * FROM t1 ORDER BY a;
+a
+ a
+ a 
+a   
+abc
+abc  
+CREATE TABLE t2 (a VARCHAR(10)) COLLATE 'gbk_nopad_bin';
+INSERT INTO t2 VALUES ('abc '),('abc  '),(' a'),('a ');
+SELECT * FROM t1 UNION SELECT * FROM t2 ORDER BY a;
+a
+ a
+ a 
+a 
+a   
+abc
+abc 
+abc  
+DROP TABLE t1;
+DROP TABLE t2;
+CREATE TABLE t1 (a VARCHAR(10)) COLLATE 'gbk_nopad_bin';
+INSERT INTO t1 VALUES ('a'),('a  '),(' a'),(' a '),('a   ');
+SELECT DISTINCT * FROM t1 ORDER BY a;
+a
+ a
+ a 
+a
+a  
+a   
+SELECT DISTINCT COUNT(*) FROM t1 ORDER BY a;
+COUNT(*)
+5
+SELECT MAX(a) FROM t1;
+MAX(a)
+a   
+CREATE TABLE t2 (a VARCHAR(10), b int, c varchar(10)) COLLATE 'gbk_nopad_bin';
+INSERT t2 values('ab', 12, 'cd'), ('ab', 2, 'ed'), ('aa', 20, 'er'), ('aa  ', 0, 'er ');
+SELECT * FROM t2 GROUP BY b ORDER BY c;
+a	b	c
+ab	12	cd
+ab	2	ed
+aa	20	er
+aa  	0	er 
+DROP TABLE t2;
+SELECT HEX(WEIGHT_STRING(a AS CHAR(10))) FROM t1;
+HEX(WEIGHT_STRING(a AS CHAR(10)))
+61000000000000000000
+61202000000000000000
+20610000000000000000
+20612000000000000000
+61202020000000000000
+DROP TABLE t1;
+SELECT IF('abc' COLLATE 'gbk_nopad_bin' = 'abc ' COLLATE 'gbk_nopad_bin', 'pad', 'nopad');
+IF('abc' COLLATE 'gbk_nopad_bin' = 'abc ' COLLATE 'gbk_nopad_bin', 'pad', 'nopad')
+nopad
+SELECT CASE 'abc' COLLATE 'gbk_nopad_bin' WHEN 'abc ' COLLATE 'gbk_nopad_bin' THEN 'pad' ELSE 'nopad' END;
+CASE 'abc' COLLATE 'gbk_nopad_bin' WHEN 'abc ' COLLATE 'gbk_nopad_bin' THEN 'pad' ELSE 'nopad' END
+nopad
+SELECT CASE WHEN 'abc' COLLATE 'gbk_nopad_bin' = 'abc ' COLLATE 'gbk_nopad_bin' THEN 'pad' ELSE 'nopad' END;
+CASE WHEN 'abc' COLLATE 'gbk_nopad_bin' = 'abc ' COLLATE 'gbk_nopad_bin' THEN 'pad' ELSE 'nopad' END
+nopad
+SELECT LEAST('abc ' COLLATE 'gbk_nopad_bin', 'abc  ' COLLATE 'gbk_nopad_bin');
+LEAST('abc ' COLLATE 'gbk_nopad_bin', 'abc  ' COLLATE 'gbk_nopad_bin')
+abc 
+CREATE TABLE t1 (a VARCHAR(10)) COLLATE 'gbk_bin';
+INSERT INTO t1 VALUES ('a'),('a ');
+SELECT COUNT(*) FROM t1 WHERE a='a';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_bin';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_nopad_bin';
+COUNT(*)
+1
+ALTER TABLE t1 MODIFY a VARCHAR(10) COLLATE 'gbk_nopad_bin';
+SELECT COUNT(*) FROM t1 WHERE a='a';
+COUNT(*)
+1
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_bin';
+COUNT(*)
+2
+SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'gbk_nopad_bin';
+COUNT(*)
+1
+DROP TABLE t1;
+#
 # End of 10.2 tests
 #

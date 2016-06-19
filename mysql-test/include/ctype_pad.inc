@@ -1,9 +1,3 @@
-
---disable_warnings
-drop table if exists t1;
-drop table if exists t2;
---enable_warnings
-
 #
 # Unique indexes
 #

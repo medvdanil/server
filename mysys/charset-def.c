@@ -221,16 +221,22 @@ my_bool init_compiled_charsets(myf flags __attribute__((unused)))
 #ifdef HAVE_CHARSET_gb2312
   add_compiled_collation(&my_charset_gb2312_chinese_ci);
   add_compiled_collation(&my_charset_gb2312_bin);
+  add_compiled_collation(&my_charset_gb2312_chinese_nopad_ci);
+  add_compiled_collation(&my_charset_gb2312_nopad_bin);
 #endif
 
 #ifdef HAVE_CHARSET_gbk
   add_compiled_collation(&my_charset_gbk_chinese_ci);
   add_compiled_collation(&my_charset_gbk_bin);
+  add_compiled_collation(&my_charset_gbk_chinese_nopad_ci);
+  add_compiled_collation(&my_charset_gbk_nopad_bin);
 #endif
 
 #ifdef HAVE_CHARSET_sjis
   add_compiled_collation(&my_charset_sjis_japanese_ci);
   add_compiled_collation(&my_charset_sjis_bin);
+  add_compiled_collation(&my_charset_sjis_japanese_nopad_ci);
+  add_compiled_collation(&my_charset_sjis_nopad_bin);
 #endif
 
 #ifdef HAVE_CHARSET_tis620
@@ -275,6 +281,8 @@ my_bool init_compiled_charsets(myf flags __attribute__((unused)))
 #ifdef HAVE_CHARSET_ujis
   add_compiled_collation(&my_charset_ujis_japanese_ci);
   add_compiled_collation(&my_charset_ujis_bin);
+  add_compiled_collation(&my_charset_ujis_japanese_nopad_ci);
+  add_compiled_collation(&my_charset_ujis_nopad_bin);
 #endif
 
 #ifdef HAVE_CHARSET_utf8

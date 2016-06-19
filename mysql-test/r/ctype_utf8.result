@@ -10461,8 +10461,6 @@ DROP TABLE t1;
 #
 # MDEV-9711 NO PAD Collatons
 #
-drop table if exists t1;
-drop table if exists t2;
 CREATE TABLE t1 (a VARCHAR(10) PRIMARY KEY) COLLATE 'utf8_general_nopad_ci';
 INSERT INTO t1 VALUES ('abc'),('abc  '),(' a'),(' a '),('a   ');
 SELECT * FROM t1 ORDER BY a;
@@ -10551,8 +10549,6 @@ SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'utf8_general_nopad_ci';
 COUNT(*)
 1
 DROP TABLE t1;
-drop table if exists t1;
-drop table if exists t2;
 CREATE TABLE t1 (a VARCHAR(10) PRIMARY KEY) COLLATE 'utf8_general_nopad_ci';
 INSERT INTO t1 VALUES ('abc'),('abc  '),(' a'),(' a '),('a   ');
 SELECT * FROM t1 ORDER BY a;
@@ -10641,8 +10637,6 @@ SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'utf8_general_nopad_ci';
 COUNT(*)
 1
 DROP TABLE t1;
-drop table if exists t1;
-drop table if exists t2;
 CREATE TABLE t1 (a VARCHAR(10) PRIMARY KEY) COLLATE 'utf8_general_nopad_ci';
 INSERT INTO t1 VALUES ('abc'),('abc  '),(' a'),(' a '),('a   ');
 SELECT * FROM t1 ORDER BY a;
@@ -10731,8 +10725,6 @@ SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'utf8_general_nopad_ci';
 COUNT(*)
 1
 DROP TABLE t1;
-drop table if exists t1;
-drop table if exists t2;
 CREATE TABLE t1 (a VARCHAR(10) PRIMARY KEY) COLLATE 'utf8_nopad_bin';
 INSERT INTO t1 VALUES ('abc'),('abc  '),(' a'),(' a '),('a   ');
 SELECT * FROM t1 ORDER BY a;
@@ -10821,8 +10813,6 @@ SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'utf8_nopad_bin';
 COUNT(*)
 1
 DROP TABLE t1;
-drop table if exists t1;
-drop table if exists t2;
 CREATE TABLE t1 (a VARCHAR(10) PRIMARY KEY) COLLATE 'utf8_nopad_bin';
 INSERT INTO t1 VALUES ('abc'),('abc  '),(' a'),(' a '),('a   ');
 SELECT * FROM t1 ORDER BY a;
@@ -10911,8 +10901,6 @@ SELECT COUNT(*) FROM t1 WHERE a='a' COLLATE 'utf8_nopad_bin';
 COUNT(*)
 1
 DROP TABLE t1;
-drop table if exists t1;
-drop table if exists t2;
 CREATE TABLE t1 (a VARCHAR(10) PRIMARY KEY) COLLATE 'utf8_nopad_bin';
 INSERT INTO t1 VALUES ('abc'),('abc  '),(' a'),(' a '),('a   ');
 SELECT * FROM t1 ORDER BY a;
