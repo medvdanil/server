@@ -206,7 +206,7 @@ void dispcset(FILE *f,CHARSET_INFO *cs)
 {
   fprintf(f,"{\n");
   fprintf(f,"  %d,%d,%d,\n",cs->number,0,0);
-  fprintf(f,"  MY_CS_COMPILED%s%s%s%s%s,\n",
+  fprintf(f,"  MY_CS_COMPILED%s%s%s%s%s%s,\n",
           cs->state & MY_CS_BINSORT         ? "|MY_CS_BINSORT"   : "",
           cs->state & MY_CS_PRIMARY         ? "|MY_CS_PRIMARY"   : "",
           is_case_sensitive(cs)             ? "|MY_CS_CSSORT"    : "",
@@ -224,7 +224,7 @@ void dispcset(FILE *f,CHARSET_INFO *cs)
     fprintf(f,"  to_lower_%s,                /* lower         */\n",cs->name);
     fprintf(f,"  to_upper_%s,                /* upper         */\n",cs->name);
     if (cs->sort_order)
-      fprintf(f,"  sort_order_%s, %s           /* sort_order    */\n",cs->name, cs->sort_order);
+      fprintf(f,"  sort_order_%s,            /* sort_order    */\n",cs->name);
     else
       fprintf(f,"  NULL,                     /* sort_order    */\n");
     fprintf(f,"  NULL,                       /* uca           */\n");
