@@ -220,15 +220,34 @@ void dispcset(FILE *f,CHARSET_INFO *cs)
     fprintf(f,"  \"%s\",                     /* coll name     */\n",cs->name);
     fprintf(f,"  \"\",                       /* comment       */\n");
     fprintf(f,"  NULL,                       /* tailoring     */\n");
-    fprintf(f,"  ctype_%s,                   /* ctype         */\n",cs->name);
-    fprintf(f,"  to_lower_%s,                /* lower         */\n",cs->name);
-    fprintf(f,"  to_upper_%s,                /* upper         */\n",cs->name);
-    if (cs->sort_order)
-      fprintf(f,"  sort_order_%s,            /* sort_order    */\n",cs->name);
+    if (cs->state & MY_CS_NOPAD) {
+      fprintf(f,"  ctype_%s,                   /* ctype         */\n",
+              cs->sort_order);
+      fprintf(f,"  to_lower_%s,                /* lower         */\n",
+              cs->sort_order);
+      fprintf(f,"  to_upper_%s,                /* upper         */\n",
+              cs->sort_order);
+      if (cs->state & MY_CS_BINSORT)
+        fprintf(f,"  NULL,                     /* sort_order    */\n");
+      else
+        fprintf(f,"  sort_order_%s,            /* sort_order    */\n",
+                cs->sort_order);
+      fprintf(f,"  NULL,                       /* uca           */\n");
+      fprintf(f,"  to_uni_%s,                  /* to_uni        */\n",
+              cs->sort_order);
+    }
     else
-      fprintf(f,"  NULL,                     /* sort_order    */\n");
-    fprintf(f,"  NULL,                       /* uca           */\n");
-    fprintf(f,"  to_uni_%s,                  /* to_uni        */\n",cs->name);
+    {
+      fprintf(f,"  ctype_%s,                   /* ctype         */\n",cs->name);
+      fprintf(f,"  to_lower_%s,                /* lower         */\n",cs->name);
+      fprintf(f,"  to_upper_%s,                /* upper         */\n",cs->name);
+      if (cs->state & MY_CS_BINSORT)
+        fprintf(f,"  NULL,                     /* sort_order    */\n");
+      else
+        fprintf(f,"  sort_order_%s,            /* sort_order    */\n",cs->name);
+      fprintf(f,"  NULL,                       /* uca           */\n");
+      fprintf(f,"  to_uni_%s,                  /* to_uni        */\n",cs->name);
+    }
   }
   else
   {
@@ -366,6 +385,13 @@ main(int argc, char **argv  __attribute__((unused)))
        cs++)
   {
     if (simple_cs_is_full(cs))
+    {
+      fprintf(f,"#ifdef HAVE_CHARSET_%s\n",cs->csname);
+      dispcset(f,cs);
+      fprintf(f,",\n");
+      fprintf(f,"#endif\n");
+    }
+    else if((cs->state & MY_CS_NOPAD) && get_charset_number(cs->sort_order))
     {
       fprintf(f,"#ifdef HAVE_CHARSET_%s\n",cs->csname);
       dispcset(f,cs);

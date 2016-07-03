@@ -338,6 +338,11 @@ static int fill_uchar(uchar *a,uint size,const char *str, size_t len)
   uint i= 0;
   const char *s, *b, *e=str+len;
   
+  for (s=str ; (s < e) && !strchr(" \t\r\n",s[0]); s++) ;
+  if (s == e) /* attribute is not weight map */
+  {
+    return 1;
+  }
   for (s=str ; s < e ; i++)
   { 
     for ( ; (s < e) && strchr(" \t\r\n",s[0]); s++) ;
@@ -630,7 +635,11 @@ static int cs_value(MY_XML_PARSER *st,const char *attr, size_t len)
     i->cs.tab_to_uni=i->tab_to_uni;
     break;
   case _CS_COLLMAP:
-    fill_uchar(i->sort_order,MY_CS_SORT_ORDER_TABLE_SIZE,attr,len);
+    if(fill_uchar(i->sort_order,MY_CS_SORT_ORDER_TABLE_SIZE,attr,len))
+    { /* attr is name of other collation */
+      memcpy(i->sort_order, attr, len);
+      i->sort_order[len] = 0;
+    }
     i->cs.sort_order=i->sort_order;
     break;
   case _CS_CTYPEMAP:

@@ -8618,6 +8618,72 @@ struct charset_info_st compiled_charsets[] = {
 }
 ,
 #endif
+#ifdef HAVE_CHARSET_greek
+{
+  361,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "greek",                     /* cset name     */
+  "greek_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_greek_general_ci,                   /* ctype         */
+  to_lower_greek_general_ci,                /* lower         */
+  to_upper_greek_general_ci,                /* upper         */
+  sort_order_greek_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_greek_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_greek
+{
+  362,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "greek",                     /* cset name     */
+  "greek_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_greek_bin,                   /* ctype         */
+  to_lower_greek_bin,                /* lower         */
+  to_upper_greek_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_greek_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
 {
   0,0,0,
   MY_CS_COMPILED,

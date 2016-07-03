@@ -354,8 +354,8 @@ To make maintaining easier please:
   <alias>iso-ir-126</alias>
   <collation name="greek_general_ci" 	id="25"	order="Greek"	flag="primary"/>
   <collation name="greek_bin"		id="70"	order="Binary"	flag="binary"/>
-  <collation name="greek_general_nopad_ci"    id="361"  flag="nopad" map="greek_general_ci"/>
-  <collation name="greek_nopad_bin"           id="362"  flag="binary" flag="nopad"/>
+  <collation name="greek_general_nopad_ci"	id="361"	flag="nopad"	map="greek_general_ci"/>
+  <collation name="greek_nopad_bin"	id="362"	flag="binary"	flag="nopad"	map="greek_bin"/>
 </charset>
 
 <charset name="cp1250">
