@@ -211,7 +211,8 @@ void dispcset(FILE *f,CHARSET_INFO *cs)
           cs->state & MY_CS_PRIMARY         ? "|MY_CS_PRIMARY"   : "",
           is_case_sensitive(cs)             ? "|MY_CS_CSSORT"    : "",
           my_charset_is_8bit_pure_ascii(cs) ? "|MY_CS_PUREASCII" : "",
-          !my_charset_is_ascii_compatible(cs) ? "|MY_CS_NONASCII": "");
+          !my_charset_is_ascii_compatible(cs) ? "|MY_CS_NONASCII": "",
+          cs->state & MY_CS_NOPAD           ? "|MY_CS_NOPAD"     : "");
   
   if (cs->name)
   {
@@ -223,7 +224,7 @@ void dispcset(FILE *f,CHARSET_INFO *cs)
     fprintf(f,"  to_lower_%s,                /* lower         */\n",cs->name);
     fprintf(f,"  to_upper_%s,                /* upper         */\n",cs->name);
     if (cs->sort_order)
-      fprintf(f,"  sort_order_%s,            /* sort_order    */\n",cs->name);
+      fprintf(f,"  sort_order_%s, %s           /* sort_order    */\n",cs->name, cs->sort_order);
     else
       fprintf(f,"  NULL,                     /* sort_order    */\n");
     fprintf(f,"  NULL,                       /* uca           */\n");
@@ -258,10 +259,14 @@ void dispcset(FILE *f,CHARSET_INFO *cs)
   fprintf(f,"  0,                          /* escape_with_backslash_is_dangerous */\n");
   fprintf(f,"  1,                          /* levels_for_order   */\n");
   fprintf(f,"  &my_charset_8bit_handler,\n");
+
+  const char *pad= "";
+  if (cs->state & MY_CS_NOPAD)
+    pad = "_nopad";
   if (cs->state & MY_CS_BINSORT)
-    fprintf(f,"  &my_collation_8bit_bin_handler,\n");
+    fprintf(f,"  &my_collation_8bit%s_bin_handler,\n", pad);
   else
-    fprintf(f,"  &my_collation_8bit_simple_ci_handler,\n");
+    fprintf(f,"  &my_collation_8bit_simple%s_ci_handler,\n", pad);
   fprintf(f,"}\n");
 }
 

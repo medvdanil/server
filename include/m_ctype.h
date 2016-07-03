@@ -360,6 +360,8 @@ struct my_collation_handler_st
 
 extern MY_COLLATION_HANDLER my_collation_8bit_bin_handler;
 extern MY_COLLATION_HANDLER my_collation_8bit_simple_ci_handler;
+extern MY_COLLATION_HANDLER my_collation_8bit_nopad_bin_handler;
+extern MY_COLLATION_HANDLER my_collation_8bit_simple_nopad_ci_handler;
 extern MY_COLLATION_HANDLER my_collation_ucs2_uca_handler;
 
 /* Some typedef to make it easy for C++ to make function pointers */
@@ -584,6 +586,7 @@ struct charset_info_st
 
 extern MYSQL_PLUGIN_IMPORT struct charset_info_st my_charset_bin;
 extern MYSQL_PLUGIN_IMPORT struct charset_info_st my_charset_latin1;
+extern MYSQL_PLUGIN_IMPORT struct charset_info_st my_charset_latin1_nopad;
 extern MYSQL_PLUGIN_IMPORT struct charset_info_st my_charset_filename;
 extern MYSQL_PLUGIN_IMPORT struct charset_info_st my_charset_utf8_general_ci;
 
@@ -613,6 +616,7 @@ extern struct charset_info_st my_charset_gbk_chinese_ci;
 extern struct charset_info_st my_charset_gbk_nopad_bin;
 extern struct charset_info_st my_charset_gbk_chinese_nopad_ci;
 extern struct charset_info_st my_charset_latin1_bin;
+extern struct charset_info_st my_charset_latin1_nopad_bin;
 extern struct charset_info_st my_charset_latin1_german2_ci;
 extern struct charset_info_st my_charset_latin2_czech_ci;
 extern struct charset_info_st my_charset_sjis_bin;

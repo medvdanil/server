@@ -7,6 +7,7 @@
 */
 
 /* Copyright 2000-2008 MySQL AB, 2008 Sun Microsystems, Inc.
+   Copyright 2010-2011 Monty Program Ab
    Copyright (c) 2000, 2011, Oracle and/or its affiliates.
 
    This program is free software; you can redistribute it and/or modify
