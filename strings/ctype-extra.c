@@ -8684,6 +8684,1392 @@ struct charset_info_st compiled_charsets[] = {
 }
 ,
 #endif
+#ifdef HAVE_CHARSET_cp1250
+{
+  363,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "cp1250",                     /* cset name     */
+  "cp1250_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_cp1250_general_ci,                   /* ctype         */
+  to_lower_cp1250_general_ci,                /* lower         */
+  to_upper_cp1250_general_ci,                /* upper         */
+  sort_order_cp1250_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_cp1250_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_cp1250
+{
+  364,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "cp1250",                     /* cset name     */
+  "cp1250_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_cp1250_bin,                   /* ctype         */
+  to_lower_cp1250_bin,                /* lower         */
+  to_upper_cp1250_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_cp1250_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_dec8
+{
+  365,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "dec8",                     /* cset name     */
+  "dec8_swedish_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_dec8_swedish_ci,                   /* ctype         */
+  to_lower_dec8_swedish_ci,                /* lower         */
+  to_upper_dec8_swedish_ci,                /* upper         */
+  sort_order_dec8_swedish_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_dec8_swedish_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_dec8
+{
+  366,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "dec8",                     /* cset name     */
+  "dec8_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_dec8_bin,                   /* ctype         */
+  to_lower_dec8_bin,                /* lower         */
+  to_upper_dec8_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_dec8_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_cp850
+{
+  367,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "cp850",                     /* cset name     */
+  "cp850_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_cp850_general_ci,                   /* ctype         */
+  to_lower_cp850_general_ci,                /* lower         */
+  to_upper_cp850_general_ci,                /* upper         */
+  sort_order_cp850_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_cp850_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_cp850
+{
+  368,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "cp850",                     /* cset name     */
+  "cp850_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_cp850_bin,                   /* ctype         */
+  to_lower_cp850_bin,                /* lower         */
+  to_upper_cp850_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_cp850_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_hp8
+{
+  369,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "hp8",                     /* cset name     */
+  "hp8_english_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_hp8_english_ci,                   /* ctype         */
+  to_lower_hp8_english_ci,                /* lower         */
+  to_upper_hp8_english_ci,                /* upper         */
+  sort_order_hp8_english_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_hp8_english_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_hp8
+{
+  370,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "hp8",                     /* cset name     */
+  "hp8_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_hp8_bin,                   /* ctype         */
+  to_lower_hp8_bin,                /* lower         */
+  to_upper_hp8_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_hp8_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_koi8r
+{
+  371,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "koi8r",                     /* cset name     */
+  "koi8r_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_koi8r_general_ci,                   /* ctype         */
+  to_lower_koi8r_general_ci,                /* lower         */
+  to_upper_koi8r_general_ci,                /* upper         */
+  sort_order_koi8r_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_koi8r_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_koi8r
+{
+  372,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "koi8r",                     /* cset name     */
+  "koi8r_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_koi8r_bin,                   /* ctype         */
+  to_lower_koi8r_bin,                /* lower         */
+  to_upper_koi8r_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_koi8r_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_latin2
+{
+  373,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "latin2",                     /* cset name     */
+  "latin2_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_latin2_general_ci,                   /* ctype         */
+  to_lower_latin2_general_ci,                /* lower         */
+  to_upper_latin2_general_ci,                /* upper         */
+  sort_order_latin2_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_latin2_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_latin2
+{
+  374,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "latin2",                     /* cset name     */
+  "latin2_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_latin2_bin,                   /* ctype         */
+  to_lower_latin2_bin,                /* lower         */
+  to_upper_latin2_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_latin2_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_ascii
+{
+  375,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "ascii",                     /* cset name     */
+  "ascii_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_ascii_general_ci,                   /* ctype         */
+  to_lower_ascii_general_ci,                /* lower         */
+  to_upper_ascii_general_ci,                /* upper         */
+  sort_order_ascii_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_ascii_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_ascii
+{
+  376,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "ascii",                     /* cset name     */
+  "ascii_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_ascii_bin,                   /* ctype         */
+  to_lower_ascii_bin,                /* lower         */
+  to_upper_ascii_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_ascii_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_swe7
+{
+  377,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "swe7",                     /* cset name     */
+  "swe7_swedish_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_swe7_swedish_ci,                   /* ctype         */
+  to_lower_swe7_swedish_ci,                /* lower         */
+  to_upper_swe7_swedish_ci,                /* upper         */
+  sort_order_swe7_swedish_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_swe7_swedish_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_swe7
+{
+  378,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "swe7",                     /* cset name     */
+  "swe7_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_swe7_bin,                   /* ctype         */
+  to_lower_swe7_bin,                /* lower         */
+  to_upper_swe7_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_swe7_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_hebrew
+{
+  379,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "hebrew",                     /* cset name     */
+  "hebrew_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_hebrew_general_ci,                   /* ctype         */
+  to_lower_hebrew_general_ci,                /* lower         */
+  to_upper_hebrew_general_ci,                /* upper         */
+  sort_order_hebrew_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_hebrew_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_hebrew
+{
+  380,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "hebrew",                     /* cset name     */
+  "hebrew_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_hebrew_bin,                   /* ctype         */
+  to_lower_hebrew_bin,                /* lower         */
+  to_upper_hebrew_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_hebrew_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_latin7
+{
+  383,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "latin7",                     /* cset name     */
+  "latin7_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_latin7_general_ci,                   /* ctype         */
+  to_lower_latin7_general_ci,                /* lower         */
+  to_upper_latin7_general_ci,                /* upper         */
+  sort_order_latin7_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_latin7_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_latin7
+{
+  384,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "latin7",                     /* cset name     */
+  "latin7_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_latin7_bin,                   /* ctype         */
+  to_lower_latin7_bin,                /* lower         */
+  to_upper_latin7_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_latin7_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_koi8u
+{
+  385,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "koi8u",                     /* cset name     */
+  "koi8u_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_koi8u_general_ci,                   /* ctype         */
+  to_lower_koi8u_general_ci,                /* lower         */
+  to_upper_koi8u_general_ci,                /* upper         */
+  sort_order_koi8u_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_koi8u_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_koi8u
+{
+  386,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "koi8u",                     /* cset name     */
+  "koi8u_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_koi8u_bin,                   /* ctype         */
+  to_lower_koi8u_bin,                /* lower         */
+  to_upper_koi8u_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_koi8u_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_cp1257
+{
+  387,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "cp1257",                     /* cset name     */
+  "cp1257_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_cp1257_general_ci,                   /* ctype         */
+  to_lower_cp1257_general_ci,                /* lower         */
+  to_upper_cp1257_general_ci,                /* upper         */
+  sort_order_cp1257_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_cp1257_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_cp1257
+{
+  388,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "cp1257",                     /* cset name     */
+  "cp1257_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_cp1257_bin,                   /* ctype         */
+  to_lower_cp1257_bin,                /* lower         */
+  to_upper_cp1257_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_cp1257_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_latin5
+{
+  389,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "latin5",                     /* cset name     */
+  "latin5_turkish_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_latin5_turkish_ci,                   /* ctype         */
+  to_lower_latin5_turkish_ci,                /* lower         */
+  to_upper_latin5_turkish_ci,                /* upper         */
+  sort_order_latin5_turkish_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_latin5_turkish_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_latin5
+{
+  390,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "latin5",                     /* cset name     */
+  "latin5_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_latin5_bin,                   /* ctype         */
+  to_lower_latin5_bin,                /* lower         */
+  to_upper_latin5_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_latin5_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_armscii8
+{
+  391,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "armscii8",                     /* cset name     */
+  "armscii8_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_armscii8_general_ci,                   /* ctype         */
+  to_lower_armscii8_general_ci,                /* lower         */
+  to_upper_armscii8_general_ci,                /* upper         */
+  sort_order_armscii8_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_armscii8_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_armscii8
+{
+  392,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "armscii8",                     /* cset name     */
+  "armscii8_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_armscii8_bin,                   /* ctype         */
+  to_lower_armscii8_bin,                /* lower         */
+  to_upper_armscii8_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_armscii8_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_cp866
+{
+  393,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "cp866",                     /* cset name     */
+  "cp866_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_cp866_general_ci,                   /* ctype         */
+  to_lower_cp866_general_ci,                /* lower         */
+  to_upper_cp866_general_ci,                /* upper         */
+  sort_order_cp866_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_cp866_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_cp866
+{
+  394,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "cp866",                     /* cset name     */
+  "cp866_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_cp866_bin,                   /* ctype         */
+  to_lower_cp866_bin,                /* lower         */
+  to_upper_cp866_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_cp866_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_keybcs2
+{
+  395,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "keybcs2",                     /* cset name     */
+  "keybcs2_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_keybcs2_general_ci,                   /* ctype         */
+  to_lower_keybcs2_general_ci,                /* lower         */
+  to_upper_keybcs2_general_ci,                /* upper         */
+  sort_order_keybcs2_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_keybcs2_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_keybcs2
+{
+  396,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "keybcs2",                     /* cset name     */
+  "keybcs2_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_keybcs2_bin,                   /* ctype         */
+  to_lower_keybcs2_bin,                /* lower         */
+  to_upper_keybcs2_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_keybcs2_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_macce
+{
+  397,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "macce",                     /* cset name     */
+  "macce_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_macce_general_ci,                   /* ctype         */
+  to_lower_macce_general_ci,                /* lower         */
+  to_upper_macce_general_ci,                /* upper         */
+  sort_order_macce_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_macce_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_macce
+{
+  398,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "macce",                     /* cset name     */
+  "macce_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_macce_bin,                   /* ctype         */
+  to_lower_macce_bin,                /* lower         */
+  to_upper_macce_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_macce_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_macroman
+{
+  399,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "macroman",                     /* cset name     */
+  "macroman_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_macroman_general_ci,                   /* ctype         */
+  to_lower_macroman_general_ci,                /* lower         */
+  to_upper_macroman_general_ci,                /* upper         */
+  sort_order_macroman_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_macroman_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_macroman
+{
+  400,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "macroman",                     /* cset name     */
+  "macroman_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_macroman_bin,                   /* ctype         */
+  to_lower_macroman_bin,                /* lower         */
+  to_upper_macroman_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_macroman_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_cp852
+{
+  401,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "cp852",                     /* cset name     */
+  "cp852_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_cp852_general_ci,                   /* ctype         */
+  to_lower_cp852_general_ci,                /* lower         */
+  to_upper_cp852_general_ci,                /* upper         */
+  sort_order_cp852_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_cp852_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_cp852
+{
+  402,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "cp852",                     /* cset name     */
+  "cp852_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_cp852_bin,                   /* ctype         */
+  to_lower_cp852_bin,                /* lower         */
+  to_upper_cp852_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_cp852_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_cp1256
+{
+  403,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "cp1256",                     /* cset name     */
+  "cp1256_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_cp1256_general_ci,                   /* ctype         */
+  to_lower_cp1256_general_ci,                /* lower         */
+  to_upper_cp1256_general_ci,                /* upper         */
+  sort_order_cp1256_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_cp1256_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_cp1256
+{
+  404,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "cp1256",                     /* cset name     */
+  "cp1256_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_cp1256_bin,                   /* ctype         */
+  to_lower_cp1256_bin,                /* lower         */
+  to_upper_cp1256_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_cp1256_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_geostd8
+{
+  405,0,0,
+  MY_CS_COMPILED|MY_CS_NOPAD,
+  "geostd8",                     /* cset name     */
+  "geostd8_general_nopad_ci",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_geostd8_general_ci,                   /* ctype         */
+  to_lower_geostd8_general_ci,                /* lower         */
+  to_upper_geostd8_general_ci,                /* upper         */
+  sort_order_geostd8_general_ci,            /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_geostd8_general_ci,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_simple_nopad_ci_handler,
+}
+,
+#endif
+#ifdef HAVE_CHARSET_geostd8
+{
+  406,0,0,
+  MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_NOPAD,
+  "geostd8",                     /* cset name     */
+  "geostd8_nopad_bin",                     /* coll name     */
+  "",                       /* comment       */
+  NULL,                       /* tailoring     */
+  ctype_geostd8_bin,                   /* ctype         */
+  to_lower_geostd8_bin,                /* lower         */
+  to_upper_geostd8_bin,                /* upper         */
+  NULL,                     /* sort_order    */
+  NULL,                       /* uca           */
+  to_uni_geostd8_bin,                  /* to_uni        */
+  NULL,                       /* from_uni      */
+  &my_unicase_default,        /* caseinfo      */
+  NULL,                       /* state map     */
+  NULL,                       /* ident map     */
+  1,                          /* strxfrm_multiply*/
+  1,                          /* caseup_multiply*/
+  1,                          /* casedn_multiply*/
+  1,                          /* mbminlen      */
+  1,                          /* mbmaxlen      */
+  0,                          /* min_sort_char */
+  255,                        /* max_sort_char */
+  ' ',                        /* pad_char      */
+  0,                          /* escape_with_backslash_is_dangerous */
+  1,                          /* levels_for_order   */
+  &my_charset_8bit_handler,
+  &my_collation_8bit_nopad_bin_handler,
+}
+,
+#endif
 {
   0,0,0,
   MY_CS_COMPILED,

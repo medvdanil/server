@@ -125,6 +125,17 @@ static my_bool simple_cs_is_full(CHARSET_INFO *cs)
 	  (cs->sort_order || (cs->state & MY_CS_BINSORT))));
 }
 
+
+static my_bool nopad_cs_is_full(CHARSET_INFO *cs)
+{
+  return cs->number && cs->csname && cs->name &&
+         (cs->state & MY_CS_NOPAD) &&
+         ((cs->sort_order &&
+           get_charset_number((const char *) cs->sort_order)) ||
+          (cs->state & MY_CS_BINSORT));
+}
+
+
 static int add_collation(struct charset_info_st *cs)
 {
   if (cs->name && (cs->number || (cs->number=get_charset_number(cs->name))))
@@ -202,8 +213,29 @@ is_case_sensitive(CHARSET_INFO *cs)
 }
 
 
+void disp_maps(FILE *f, CHARSET_INFO *cs,
+               const char *name1, const char *name2)
+{
+  fprintf(f,"  ctype_%s%s,                   /* ctype         */\n",
+          name1, name2);
+  fprintf(f,"  to_lower_%s%s,                /* lower         */\n",
+          name1, name2);
+  fprintf(f,"  to_upper_%s%s,                /* upper         */\n",
+          name1, name2);
+  if (cs->state & MY_CS_BINSORT)
+    fprintf(f,"  NULL,                     /* sort_order    */\n");
+  else
+    fprintf(f,"  sort_order_%s%s,            /* sort_order    */\n",
+            name1, name2);
+  fprintf(f,"  NULL,                       /* uca           */\n");
+  fprintf(f,"  to_uni_%s%s,                  /* to_uni        */\n",
+          name1, name2);
+}
+
+
 void dispcset(FILE *f,CHARSET_INFO *cs)
 {
+  const char *pad= "";
   fprintf(f,"{\n");
   fprintf(f,"  %d,%d,%d,\n",cs->number,0,0);
   fprintf(f,"  MY_CS_COMPILED%s%s%s%s%s%s,\n",
@@ -220,33 +252,31 @@ void dispcset(FILE *f,CHARSET_INFO *cs)
     fprintf(f,"  \"%s\",                     /* coll name     */\n",cs->name);
     fprintf(f,"  \"\",                       /* comment       */\n");
     fprintf(f,"  NULL,                       /* tailoring     */\n");
-    if (cs->state & MY_CS_NOPAD) {
-      fprintf(f,"  ctype_%s,                   /* ctype         */\n",
-              cs->sort_order);
-      fprintf(f,"  to_lower_%s,                /* lower         */\n",
-              cs->sort_order);
-      fprintf(f,"  to_upper_%s,                /* upper         */\n",
-              cs->sort_order);
-      if (cs->state & MY_CS_BINSORT)
-        fprintf(f,"  NULL,                     /* sort_order    */\n");
+    if (cs->state & MY_CS_NOPAD)
+    {
+      if (cs->sort_order)
+      {
+        /*
+          A NOPAD collation with a reference to another collation.
+          Use maps of the referenced collations.
+        */
+        disp_maps(f, cs, (const char *) cs->sort_order, "");
+      }
       else
-        fprintf(f,"  sort_order_%s,            /* sort_order    */\n",
-                cs->sort_order);
-      fprintf(f,"  NULL,                       /* uca           */\n");
-      fprintf(f,"  to_uni_%s,                  /* to_uni        */\n",
-              cs->sort_order);
+      {
+        /*
+          A NOPAD _bin collation.
+          Use maps of the _bin collation of the same character set.
+        */
+        disp_maps(f, cs, cs->csname, "_bin");
+      }
     }
     else
     {
-      fprintf(f,"  ctype_%s,                   /* ctype         */\n",cs->name);
-      fprintf(f,"  to_lower_%s,                /* lower         */\n",cs->name);
-      fprintf(f,"  to_upper_%s,                /* upper         */\n",cs->name);
-      if (cs->state & MY_CS_BINSORT)
-        fprintf(f,"  NULL,                     /* sort_order    */\n");
-      else
-        fprintf(f,"  sort_order_%s,            /* sort_order    */\n",cs->name);
-      fprintf(f,"  NULL,                       /* uca           */\n");
-      fprintf(f,"  to_uni_%s,                  /* to_uni        */\n",cs->name);
+      /*
+        A normal collation with its own maps.
+      */
+      disp_maps(f, cs, cs->name, "");
     }
   }
   else
@@ -279,7 +309,6 @@ void dispcset(FILE *f,CHARSET_INFO *cs)
   fprintf(f,"  1,                          /* levels_for_order   */\n");
   fprintf(f,"  &my_charset_8bit_handler,\n");
 
-  const char *pad= "";
   if (cs->state & MY_CS_NOPAD)
     pad = "_nopad";
   if (cs->state & MY_CS_BINSORT)
@@ -384,14 +413,7 @@ main(int argc, char **argv  __attribute__((unused)))
        cs < all_charsets + array_elements(all_charsets);
        cs++)
   {
-    if (simple_cs_is_full(cs))
-    {
-      fprintf(f,"#ifdef HAVE_CHARSET_%s\n",cs->csname);
-      dispcset(f,cs);
-      fprintf(f,",\n");
-      fprintf(f,"#endif\n");
-    }
-    else if((cs->state & MY_CS_NOPAD) && get_charset_number(cs->sort_order))
+    if (simple_cs_is_full(cs) || nopad_cs_is_full(cs))
     {
       fprintf(f,"#ifdef HAVE_CHARSET_%s\n",cs->csname);
       dispcset(f,cs);

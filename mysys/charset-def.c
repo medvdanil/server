@@ -244,6 +244,8 @@ my_bool init_compiled_charsets(myf flags __attribute__((unused)))
 #ifdef HAVE_CHARSET_tis620
   add_compiled_collation(&my_charset_tis620_thai_ci);
   add_compiled_collation(&my_charset_tis620_bin);
+  add_compiled_collation(&my_charset_tis620_thai_nopad_ci);
+  add_compiled_collation(&my_charset_tis620_nopad_bin);
 #endif
 
 #ifdef HAVE_CHARSET_ucs2
