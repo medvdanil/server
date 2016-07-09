@@ -273,6 +273,8 @@ To make maintaining easier please:
     <order>Mongolian</order>
     <order>Ukrainian</order>
   </collation>
+  <collation name="cp1251_general_nopad_ci"	id="407"	flag="nopad"	map="cp1251_general_ci"/>
+  <collation name="cp1251_nopad_bin"		id="408"	order="Binary"	flag="binary"	flag="nopad"/>
 </charset>
 
 <charset name="hebrew">
