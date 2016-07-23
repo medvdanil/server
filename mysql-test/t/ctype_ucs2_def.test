@@ -55,3 +55,24 @@ CHECK TABLE t1 EXTENDED;
 DROP TABLE t1;
 
 --echo End of 5.0 tests
+
+
+--echo #
+--echo # Start of 10.2 tests
+--echo #
+
+--echo #
+--echo # MDEV-9711 NO PAD Collatons
+--echo #
+SET character_set_connection=ucs2;
+let $coll='ucs2_general_nopad_ci';
+let $coll_pad='ucs2_general_ci';
+--source include/ctype_pad_all_engines.inc
+
+let $coll='ucs2_nopad_bin';
+let $coll_pad='ucs2_bin';
+--source include/ctype_pad_all_engines.inc
+
+--echo #
+--echo # End of 10.2 tests
+--echo #

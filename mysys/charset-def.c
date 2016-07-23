@@ -251,6 +251,8 @@ my_bool init_compiled_charsets(myf flags __attribute__((unused)))
 #ifdef HAVE_CHARSET_ucs2
   add_compiled_collation(&my_charset_ucs2_general_ci);
   add_compiled_collation(&my_charset_ucs2_bin);
+  add_compiled_collation(&my_charset_ucs2_general_nopad_ci);
+  add_compiled_collation(&my_charset_ucs2_nopad_bin);
   add_compiled_collation(&my_charset_ucs2_general_mysql500_ci);
 #ifdef HAVE_UCA_COLLATIONS
   add_compiled_collation(&my_charset_ucs2_unicode_ci);

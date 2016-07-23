@@ -3076,6 +3076,20 @@ static inline int my_weight_mb2_ucs2_general_ci(uchar b0, uchar b1)
 #include "strcoll.ic"
 
 
+#define DEFINE_STRNNCOLLSP_NOPAD
+#define MY_FUNCTION_NAME(x)    my_ ## x ## _ucs2_general_nopad_ci
+#define WEIGHT_ILSEQ(x)        (0xFF0000 + (uchar) (x))
+#define WEIGHT_MB2(b0,b1)      my_weight_mb2_ucs2_general_ci(b0,b1)
+#include "strcoll.ic"
+
+
+#define DEFINE_STRNNCOLLSP_NOPAD
+#define MY_FUNCTION_NAME(x)    my_ ## x ## _ucs2_nopad_bin
+#define WEIGHT_ILSEQ(x)        (0xFF0000 + (uchar) (x))
+#define WEIGHT_MB2(b0,b1)      UCS2_CODE(b0,b1)
+#include "strcoll.ic"
+
+
 static int
 my_charlen_ucs2(CHARSET_INFO *cs __attribute__((unused)),
 		const uchar *s, const uchar *e)
@@ -3157,17 +3171,14 @@ static size_t my_caseup_ucs2(CHARSET_INFO *cs, char *src, size_t srclen,
 }
 
 
-static void my_hash_sort_ucs2(CHARSET_INFO *cs, const uchar *s, size_t slen,
-			      ulong *nr1, ulong *nr2)
+static void my_hash_sort_ucs2_nopad(CHARSET_INFO *cs, const uchar *s, size_t slen,
+                                    ulong *nr1, ulong *nr2)
 {
   my_wc_t wc;
   int res;
   const uchar *e=s+slen;
   MY_UNICASE_INFO *uni_plane= cs->caseinfo;
   register ulong m1= *nr1, m2= *nr2;
-
-  while (e > s+1 && e[-1] == ' ' && e[-2] == '\0')
-    e-= 2;
 
   while ((s < e) && (res=my_ucs2_uni(cs,&wc, (uchar *)s, (uchar*)e)) >0)
   {
@@ -3179,6 +3190,17 @@ static void my_hash_sort_ucs2(CHARSET_INFO *cs, const uchar *s, size_t slen,
   *nr2= m2;
 }
 
+
+static void my_hash_sort_ucs2(CHARSET_INFO *cs, const uchar *s, size_t slen,
+			      ulong *nr1, ulong *nr2)
+{
+  const uchar *e=s+slen;
+
+  while (e > s+1 && e[-1] == ' ' && e[-2] == '\0')
+    e-= 2;
+
+  my_hash_sort_ucs2_nopad(cs, s, e - s, nr1, nr2);
+}
 
 static size_t my_casedn_ucs2(CHARSET_INFO *cs, char *src, size_t srclen,
                            char *dst __attribute__((unused)),
@@ -3314,10 +3336,10 @@ int my_wildcmp_ucs2_bin(CHARSET_INFO *cs,
 
 
 static
-void my_hash_sort_ucs2_bin(CHARSET_INFO *cs __attribute__((unused)),
-			   const uchar *key, size_t len,ulong *nr1, ulong *nr2)
+void my_hash_sort_ucs2_nopad_bin(CHARSET_INFO *cs __attribute__((unused)),
+                                 const uchar *key, size_t len,ulong *nr1, ulong *nr2)
 {
-  const uchar *end = key + len;
+  const uchar *end= key + len;
   register ulong m1= *nr1, m2= *nr2;
 
   while (end > key+1 && end[-1] == ' ' && end[-2] == '\0')
@@ -3329,6 +3351,19 @@ void my_hash_sort_ucs2_bin(CHARSET_INFO *cs __attribute__((unused)),
   }
   *nr1= m1;
   *nr2= m2;
+}
+
+
+static
+void my_hash_sort_ucs2_bin(CHARSET_INFO *cs __attribute__((unused)),
+			   const uchar *key, size_t len,ulong *nr1, ulong *nr2)
+{
+  const uchar *end= key + len;
+
+  while (end > key+1 && end[-1] == ' ' && end[-2] == '\0')
+    end-= 2;
+
+  my_hash_sort_ucs2_nopad_bin(cs, key, end - key, nr1, nr2);
 }
 
 
@@ -3360,6 +3395,38 @@ static MY_COLLATION_HANDLER my_collation_ucs2_bin_handler =
     my_strcasecmp_mb2_or_mb4,
     my_instr_mb,
     my_hash_sort_ucs2_bin,
+    my_propagate_simple
+};
+
+
+static MY_COLLATION_HANDLER my_collation_ucs2_general_nopad_ci_handler =
+{
+    NULL,		/* init */
+    my_strnncoll_ucs2_general_ci,
+    my_strnncollsp_ucs2_general_nopad_ci,
+    my_strnxfrm_unicode_nopad,
+    my_strnxfrmlen_unicode,
+    my_like_range_generic,
+    my_wildcmp_ucs2_ci,
+    my_strcasecmp_mb2_or_mb4,
+    my_instr_mb,
+    my_hash_sort_ucs2_nopad,
+    my_propagate_simple
+};
+
+
+static MY_COLLATION_HANDLER my_collation_ucs2_nopad_bin_handler =
+{
+    NULL,		/* init */
+    my_strnncoll_ucs2_bin,
+    my_strnncollsp_ucs2_nopad_bin,
+    my_strnxfrm_unicode_nopad,
+    my_strnxfrmlen_unicode,
+    my_like_range_generic,
+    my_wildcmp_ucs2_bin,
+    my_strcasecmp_mb2_or_mb4,
+    my_instr_mb,
+    my_hash_sort_ucs2_nopad_bin,
     my_propagate_simple
 };
 
@@ -3497,5 +3564,70 @@ struct charset_info_st my_charset_ucs2_bin=
     &my_collation_ucs2_bin_handler
 };
 
+
+struct charset_info_st my_charset_ucs2_general_nopad_ci=
+{
+    331,0,0,		/* number       */
+    MY_CS_COMPILED|MY_CS_STRNXFRM|MY_CS_UNICODE|MY_CS_NONASCII|MY_CS_NOPAD,
+    "ucs2",		/* cs name    */
+    "ucs2_general_nopad_ci",	/* name         */
+    "",			/* comment      */
+    NULL,		/* tailoring    */
+    ctype_ucs2,		/* ctype        */
+    to_lower_ucs2,	/* to_lower     */
+    to_upper_ucs2,	/* to_upper     */
+    to_upper_ucs2,	/* sort_order   */
+    NULL,		/* uca          */
+    NULL,		/* tab_to_uni   */
+    NULL,		/* tab_from_uni */
+    &my_unicase_default,/* caseinfo     */
+    NULL,		/* state_map    */
+    NULL,		/* ident_map    */
+    1,			/* strxfrm_multiply */
+    1,                  /* caseup_multiply  */
+    1,                  /* casedn_multiply  */
+    2,			/* mbminlen     */
+    2,			/* mbmaxlen     */
+    0,			/* min_sort_char */
+    0xFFFF,		/* max_sort_char */
+    ' ',                /* pad char      */
+    0,                  /* escape_with_backslash_is_dangerous */
+    1,                  /* levels_for_order   */
+    &my_charset_ucs2_handler,
+    &my_collation_ucs2_general_nopad_ci_handler
+};
+
+
+struct charset_info_st my_charset_ucs2_nopad_bin=
+{
+    332,0,0,		/* number       */
+    MY_CS_COMPILED|MY_CS_BINSORT|MY_CS_UNICODE|MY_CS_NONASCII|MY_CS_NOPAD,
+    "ucs2",		/* cs name    */
+    "ucs2_nopad_bin",		/* name         */
+    "",			/* comment      */
+    NULL,		/* tailoring    */
+    ctype_ucs2,		/* ctype        */
+    to_lower_ucs2,	/* to_lower     */
+    to_upper_ucs2,	/* to_upper     */
+    NULL,		/* sort_order   */
+    NULL,		/* uca          */
+    NULL,		/* tab_to_uni   */
+    NULL,		/* tab_from_uni */
+    &my_unicase_default,/* caseinfo     */
+    NULL,		/* state_map    */
+    NULL,		/* ident_map    */
+    1,			/* strxfrm_multiply */
+    1,                  /* caseup_multiply  */
+    1,                  /* casedn_multiply  */
+    2,			/* mbminlen     */
+    2,			/* mbmaxlen     */
+    0,			/* min_sort_char */
+    0xFFFF,		/* max_sort_char */
+    ' ',                /* pad char      */
+    0,                  /* escape_with_backslash_is_dangerous */
+    1,                  /* levels_for_order   */
+    &my_charset_ucs2_handler,
+    &my_collation_ucs2_nopad_bin_handler
+};
 
 #endif /* HAVE_CHARSET_ucs2 */

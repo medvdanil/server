@@ -629,6 +629,8 @@ extern struct charset_info_st my_charset_tis620_nopad_bin;
 extern struct charset_info_st my_charset_tis620_thai_nopad_ci;
 extern struct charset_info_st my_charset_ucs2_bin;
 extern struct charset_info_st my_charset_ucs2_general_ci;
+extern struct charset_info_st my_charset_ucs2_nopad_bin;
+extern struct charset_info_st my_charset_ucs2_general_nopad_ci;
 extern struct charset_info_st my_charset_ucs2_general_mysql500_ci;
 extern struct charset_info_st my_charset_ucs2_unicode_ci;
 extern struct charset_info_st my_charset_ucs2_general_mysql500_ci;
